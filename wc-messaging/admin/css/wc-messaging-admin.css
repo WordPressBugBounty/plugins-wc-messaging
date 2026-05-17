@@ -1,0 +1,881 @@
+/**
+ * all of the css for your admin-specific functionality should be
+ * included in this file.
+ */
+
+
+@-webkit-keyframes woom-spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes woom-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.nq-subtabs-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+body.woocommerce_page_wc-settings #mainform .nq-subtabs-container .subsubsub {
+    margin-bottom: 0px;
+}
+
+.woom-switch-checkbox {
+    position: relative;
+}
+
+.woom-field-text input {
+    max-width: 130px;
+}
+
+.woom-field-text .inline-inputs {
+    display: inline-flex;
+}
+
+.woom-field-text .inline-inputs input {
+    max-width: 50px;
+}
+
+.woom-field-text .inline-inputs select {
+    max-width: 70px;
+    font-size: 12px;
+}
+
+.woom-switch-checkbox .switch {
+    border: 1px solid grey;
+    position: relative;
+    display: block;
+    width: 60px;
+    height: 25px;
+}
+
+.woom-button-flex.button {
+    display: flex;
+    align-items: center;
+}
+
+.woom-button-flex>span {
+    margin-left: 5px;
+}
+
+.woocommerce_page_chat #wpfooter {
+    display: none;
+}
+
+tbody.woom-table-body .woom-field-row .link {
+    padding: 4px 8px;
+}
+
+tbody.woom-table-body tr.woom-field-row>td {
+    vertical-align: baseline;
+}
+
+tbody.woom-table-body tr.has-admin-row {
+    position: relative;
+}
+
+tbody.woom-table-body tr.has-admin-row:not(:first-child):after {
+    position: absolute;
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    top: 0px;
+    background-color: #00000022;
+    left: 0px;
+    right: 0px;
+}
+
+tbody.woom-table-body .woom-field-row .link:hover {
+    text-decoration: underline;
+}
+
+tr.woom-field-row input {
+    max-width: calc(100% - 24px);
+}
+
+
+.woom-fullwidth {
+    min-height: 100px;
+    max-height: 150px;
+    color: #000;
+    padding: 8px;
+    border: 1px solid #c3c4c7;
+    resize: both;
+    overflow: auto;
+}
+
+.woom-fullwidth p {
+    margin-top: 0px;
+}
+
+.woom-fullwidth p:last-child {
+    margin-bottom: 0px;
+}
+
+.woom-buttons-group .woom-button:not(:first-child) {
+    margin-left: 12px !important;
+}
+
+.woom-switch-checkbox .switch:before {
+    content: '';
+    display: block;
+    width: 23px;
+    height: 23px;
+    background-color: grey;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    margin: auto;
+    transition-duration: 250ms;
+}
+
+.woom-switch-checkbox .switch,
+.woom-switch-checkbox .switch:before {
+    border-radius: 32px;
+
+}
+
+.woom-table-body select {
+    max-width: 150px;
+}
+
+.woom-switch-checkbox input[type="checkbox"]:not(:checked)+.switch:before {
+    left: 2px;
+}
+
+.woom-error-text.woom-warning-message {
+    color: red;
+}
+
+.woom-success-text.woom-warning-message {
+    color: green;
+}
+
+.woom-switch-checkbox input[type="checkbox"]:checked+.switch:before {
+    left: calc(100% - 25px);
+    background-color: #a46497;
+}
+
+.woom-switch-checkbox input[type="checkbox"] {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    opacity: 0;
+}
+
+.dashicons.rotate {
+    -webkit-animation: woom-spin 2s infinite linear;
+    animation: woom-spin 2s infinite linear;
+    margin-left: 4px;
+}
+
+/**
+ * all of the css for your admin-specific functionality should be
+ * included in this file.
+ */
+.list-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.wcw-page-header .wcw-chat-header {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.wcw-page-header .wcw-chat-header>sup {
+    padding: 2px 8px;
+    border-radius: 12px;
+    border: 1px solid;
+    margin-left: 8px;
+}
+
+.wcw-page-header {
+    /* background: #ebebec; */
+    background: #d3d3d6;
+    margin-bottom: 30px;
+    position: sticky;
+    top: 0px;
+    width: 100%;
+    z-index: 1;
+}
+
+.wcw-page-header.is-scrolled {
+    box-shadow: 0 8px 16px 0 rgba(85, 93, 102, .3);
+    -webkit-box-shadow: 0 8px 16px 0 rgba(85, 93, 102, .3);
+    -o-box-shadow: 0 8px 16px 0 rgba(85, 93, 102, .3);
+    -moz-box-shadow: 0 8px 16px 0 rgba(85, 93, 102, .3);
+}
+
+.wcw-page-header .wcw-page-header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 14px;
+    margin: 0px 16px;
+}
+
+.wcw-page-header-inner .header-right-menu {
+    display: flex;
+}
+
+.wcw-page-header-inner .menu-item:not(:last-child) {
+    margin-right: 8px;
+}
+
+.wcw-page-header-inner .menu-item>a {
+    color: #757575;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.wcw-page-header-inner .menu-item:hover>a {
+
+    color: #00000087;
+}
+
+.wcw-page-header-inner .menu-item>a,
+.wcw-page-header-inner .menu-item>a:focus,
+.wcw-page-header-inner .menu-item>a:hover {
+    border: none;
+    text-decoration: none;
+    outline: none;
+    box-shadow: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -o-box-shadow: none;
+    -moz-box-shadow: none;
+}
+
+.wcw-page-header-inner .menu-item:hover {
+    background-color: #f0f0f0;
+    /* background-color: #000; */
+    box-shadow: none;
+}
+
+#woom-manual-trigger-actions .wcw-buttons {
+    margin-bottom: -8px;
+}
+
+#woom-manual-trigger-actions .wcw-buttons .btn {
+    margin-right: 8px;
+    margin-bottom: 8px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.woom-field-actions a {
+    margin: 6px;
+    padding: 6px;
+}
+
+.woom-field-checkbox,
+.woom-switch-checkbox {
+    width: 24px;
+}
+
+.woom-support-settings-container .woom-settings-sidebar {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.woom-settings-sidebar .woom-features-container {
+    background: #331f38;
+    color: #fff;
+    padding: 12px;
+}
+
+.woom-settings-sidebar .woom-features-container ul {
+    margin: 0px;
+    font-weight: 300;
+}
+
+.woom-settings-sidebar .woom-features-container ul>li::before {
+    content: "\f12a";
+    font-family: dashicons;
+    margin-right: 5px;
+    position: relative;
+    top: 2px;
+}
+
+.woom-settings-sidebar .woom-action-section {
+    padding: 12px;
+}
+
+.woom-settings-sidebar .woom-action-section .woom-action-label {
+    font-size: 16px;
+    text-align: center;
+}
+
+.woom-settings-sidebar .woom-action-section .woom-action-button .button-primary {
+    font-size: 16px;
+    width: 100%;
+    text-align: center;
+    padding: 4px;
+    margin: 12px auto;
+}
+
+/**
+popup styles starts here..
+**/
+.woom-popup-window {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background: #0000008f;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    z-index: 99999;
+}
+
+.woom-popup-window table.wc_emails.wc_emails td {
+    vertical-align: baseline;
+}
+
+.woom-popup-window .woom-popup-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    margin: auto;
+    border-radius: 12px;
+    overflow: hidden;
+    position: absolute;
+    left: 10%;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    min-width: 540px;
+    max-height: 90vh;
+    max-width: 80%;
+}
+
+.woom-popup-window .woom-popup-panel .woom-popup-content {
+    width: calc(100% - 48px);
+    height: 100%;
+    overflow: hidden;
+    overflow-y: scroll;
+    padding: 24px;
+}
+
+.woom-popup-header,
+.woom-popup-footer {
+    position: relative;
+    width: calc(100% - 24px);
+    text-align: center;
+}
+
+.woom-popup-dismiss {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    margin: 12px;
+    padding: 6px;
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.woom-popup-dismiss:hover {
+    opacity: 1;
+}
+
+/**
+popup styles ends here..
+**/
+
+
+.woom-template-cofig-actions {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.woom-template-cofig-actions .button:not(.link) {
+    margin: auto;
+    max-width: 68px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.woom-template-cofig-actions .button.link {
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+}
+
+.woom-template-cofig-actions .button.link:not(.preview-btn) {
+    text-decoration: underline;
+}
+
+table.woom-toggle-content-table .woom-label {
+    width: 0px;
+}
+
+.woom-template-settings .wc-email-settings-table-title {
+    min-width: 120px;
+}
+
+.woom-promo-features li,
+.nq-panel-box.feature {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nq-addons-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.woom-promo-features li a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: unset;
+    color: unset;
+}
+
+.woom-promo-features li a:hover {
+    color: #2271b1;
+}
+
+.woom-promo-features li h4 {
+    margin: 8px 0px;
+}
+
+.woom-promo-features li img {
+    max-width: 24px;
+}
+
+.woom-promo-features-container .card {
+    background-repeat: no-repeat;
+    background-position: 95% 14px;
+    background-size: 100px;
+}
+
+.woom-promo-features-container .card .card-content {
+    max-width: 65%;
+}
+
+.woom-promo-features-container .card a.button {
+    background: transparent;
+    /* border: 2px solid #135e96; */
+    display: inline-flex;
+    padding: 4px 15px;
+    border-radius: 32px;
+    /* color: #135e96; */
+    gap: 8px;
+    outline: none;
+}
+
+.woom-promo-features-container .card a.button img {
+    width: 24px;
+}
+
+.woom-promo-features-container .card a.button:hover {
+    background-color: #135e9626;
+}
+
+.nq-panel-box {
+    padding: 8px 16px;
+    background-color: #fff;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    position: relative
+}
+
+.nq-panel-box.featured {
+    background-color: #1e1740;
+}
+
+.nq-panel-box.nq-features-unlocked-preview-box {
+    background-color: #ded6eb;
+}
+
+.nq-features-unlocked-preview-box h4 {
+    margin: 0px;
+    font-size: 18px;
+    line-height: 28px;
+}
+
+.nq-features-unlocked-preview-box p {
+    margin: 0px;
+    line-height: 24px;
+}
+
+.nq-features-unlocked-preview-percentage {
+    font-size: 36px;
+    font-weight: 600;
+}
+
+.nq-panel-box.featured * {
+    color: #fff;
+}
+
+.nq-panel-box.featured p {
+    margin: 0px;
+}
+
+.nq-panel-box .nq-box-tag {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    font-size: 8px;
+    padding: 4px 16px;
+    border-radius: 32px;
+    font-weight: 700;
+}
+
+.nq-panel-box:not(.featured) .nq-box-tag {
+    background: #222222;
+    color: #ffffff;
+}
+
+.nq-addons-bundle .nq-panel-box .nq-box-tag {
+    background: #c71313;
+}
+
+.nq-panel-box.featured .nq-box-tag {
+    background: #f9e400;
+    color: #1e1740;
+}
+
+.nq-panel-box .woom-fullwidth {
+    background-color: #f0f0f1;
+    border: 0px;
+    border-radius: 4px;
+    overflow-x: scroll;
+}
+
+.nq-panel-box .nq-pricing {
+    font-size: 26px;
+    line-height: normal;
+    margin: 0px;
+    width: 100%;
+}
+
+.nq-panel-box .nq-pricing>span {
+    font-size: 18px;
+}
+
+.woom-buttons-group {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-start;
+}
+
+.woom-button {
+    padding: 6px 12px;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    margin: 12px 0px;
+}
+
+.nq-panel-box .nq-btn {
+    padding: 8px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    margin: 12px 0px;
+}
+
+.woom-button:not(.button-bordered),
+.nq-panel-box .nq-btn {
+    background-color: #7f54b3;
+    color: #fff;
+    border: 0px;
+    cursor: pointer;
+}
+
+.woom-button:not(.button-bordered):hover,
+.nq-panel-box .nq-btn:hover {
+    background-color: #7f54b376;
+}
+
+.woom-button.button-bordered {
+    padding: 8px 16px;
+    background-color: transparent;
+    border: 2px solid #7f54b3;
+    color: #7f54b3;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.woom-button.button-bordered:hover {
+    border-color: #7f54b376;
+    color: #7f54b376;
+
+}
+
+.round {
+    border-radius: 32px;
+}
+
+.curved {
+    border-radius: 8px;
+}
+
+.demo-explorer .nq-btn {
+    color: #1e1740;
+    background-color: #fff;
+    max-width: 30%;
+}
+
+.nq-inline-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: 12px;
+}
+
+.nq-inline-content .nq-btn {
+    width: 100%;
+}
+
+.nq-features-comparison-table {
+    border-radius: 8px;
+    background-color: #fff;
+    overflow: hidden;
+}
+
+.nq-panel-box.feature {
+    text-align: center;
+}
+
+.nq-panel-box.feature img.icon {
+    max-width: 48px;
+}
+
+.nq-panel-box.feature p {
+    margin: 0px;
+}
+
+.nq-features-comparison-table .body-item .dashicons.dashicons-yes {
+    color: #1cc713;
+}
+
+.nq-features-comparison-table .body-item .dashicons.dashicons-no-alt {
+    color: #c71313;
+}
+
+.nq-features-comparison-table .nq-comparison-table-header {
+    display: flex;
+    justify-content: center;
+    background-color: #ded6eb;
+}
+
+.nq-features-comparison-table .body-item-row {
+    display: flex;
+}
+
+.nq-features-comparison-table .body-item-row:hover {
+    background-color: #ded6eb57;
+}
+
+.nq-features-comparison-table .body-item {
+    padding: 12px;
+
+}
+
+.nq-features-comparison-table .header-item {
+    padding: 12px;
+    font-weight: 600;
+}
+
+.nq-features-comparison-table .header-item:first-child,
+.nq-features-comparison-table .body-item:first-child {
+    width: 65%;
+}
+
+.nq-features-comparison-table .header-item:not(:first-child),
+.nq-features-comparison-table .body-item:not(:first-child) {
+    width: calc(35% /2);
+    text-align: center;
+}
+
+.nq-review-box {
+    text-align: center;
+}
+
+
+.nq-review-box .star-rating .star {
+    color: #f2c912;
+    font-size: 14px;
+    font-weight: 500;
+    width: auto;
+    height: auto;
+}
+
+.nq-review-box .dashicons.dashicons-format-quote {
+    display: block;
+    font-size: 64px;
+    width: auto;
+    height: auto;
+    color: #1e1740;
+    opacity: 0.1;
+}
+
+.nq-review-box .nq-review-user-info h6,
+.nq-review-box .nq-review-user-info p {
+    margin: 0px;
+}
+
+.nq-review-box .nq-review-user-info h6 {
+    color: #1e1740;
+    font-size: 16px;
+}
+
+.nq-review-user-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+    gap: 15px;
+    margin-bottom: 24px;
+}
+
+.nq-review-user-card .img-responsive.circle img {
+    border-radius: 100%;
+    overflow: hidden;
+    max-width: 64px;
+}
+
+.nq-list-features,
+.nq-unlocked-preview-inline {
+    display: flex;
+    gap: 15px;
+}
+
+
+.nq-unlocked-preview-inline {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nq-features-unlocked-preview {
+    width: 100%;
+    height: 6px;
+    display: block;
+    background: #fff;
+    border-radius: 32px;
+    position: relative;
+    margin: 12px auto;
+    overflow: hidden;
+
+}
+
+.nq-features-unlocked-preview::after {
+    content: '';
+    width: var(--nq-unlocked-percentage);
+    height: 100%;
+    display: block;
+    background: #7f54b3;
+    border-radius: 32px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+}
+
+.nq-panel-box.demo-explorer {
+    padding: 16px;
+    background: linear-gradient(96.48deg, #1e1740 4.52%, #7f54b3 201.55%);
+
+}
+
+@media only screen and (min-width: 641px) {
+    .woom-input-number {
+        max-width: 75px;
+    }
+
+    .woom-checkbox {
+        margin: 20% auto !important;
+    }
+
+    .inline-nospace-fields label {
+        margin-bottom: 5px;
+    }
+
+    .inline-nospace-fields label:first-letter {
+        text-transform: uppercase;
+    }
+
+    .inline-nospace-fields {
+        display: flex !important;
+        align-items: baseline;
+    }
+
+    .inline-nospace-fields>div {
+        margin-right: 10px;
+    }
+
+    .woocommerce_page_chat .is-dismissible {
+        display: none;
+    }
+
+    .inline-nospace-fields input,
+    .inline-nospace-fields select {
+        border-radius: 0px;
+    }
+
+    .nq-container {
+        display: flex;
+        gap: 15px;
+    }
+
+    .nq-container .content {
+        width: 60%;
+    }
+
+    .nq-container .sidebar {
+        width: 40%;
+    }
+
+    .woom-support-settings-container {
+        display: flex;
+        column-gap: 20px;
+        align-items: flex-start;
+    }
+
+}
+
+@media only screen and (max-width: 640px) {
+
+    .inline-nospace-fields input,
+    .inline-nospace-fields select {
+        margin-bottom: 20px !important;
+    }
+
+    .nq-container {
+        display: flex;
+        gap: 15px;
+        flex-direction: column;
+    }
+
+}

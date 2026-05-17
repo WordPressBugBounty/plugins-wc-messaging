@@ -1,0 +1,813 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: WC Messaging\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-01-07 05:56+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.6.7; wp-6.4.4-alpha-57672\n"
+"X-Domain: wc-messaging"
+
+#: admin/partials/settings/general.php:40
+msgid "123XXXXX"
+msgstr ""
+
+#: admin/partials/sidebar/premium-features.php:17
+msgid "24-Hour Messaging Window Timer"
+msgstr ""
+
+#: admin/partials/settings/general.php:31
+msgid "91xxxxxxxxxx"
+msgstr ""
+
+#: admin/abandoned/settings.php:12
+msgid "Abandoned Cart"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:378
+msgid "Abandoned cart"
+msgstr ""
+
+#: admin/abandoned/settings.php:112
+msgid "Abandoned cart templates"
+msgstr ""
+
+#: admin/abandoned/settings.php:107
+msgid "Abandoned messages"
+msgstr ""
+
+#: admin/abandoned/class-wcm-abandoned-checker.php:130
+msgid "Abandoned trigger configuration pending"
+msgstr ""
+
+#: admin/abandoned/settings.php:69
+msgid "Abandoned Webhook Settings"
+msgstr ""
+
+#: includes/class-whatsapp.php:774
+msgid "accepted"
+msgstr ""
+
+#: admin/partials/settings/general.php:22
+msgid "Access token will be get from WhatsApp API setup."
+msgstr ""
+
+#: admin/abandoned/settings.php:120
+#: admin/partials/settings/config-settings-table.php:16
+msgid "Actions"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:263
+#: admin/class-wc-messaging-admin.php:284
+msgid "Add variables.."
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:313
+msgid "Additional Settings"
+msgstr ""
+
+#: admin/partials/settings/general.php:47
+msgid "Admin numbers"
+msgstr ""
+
+#: admin/partials/sidebar/premium-features.php:10
+msgid "All features of the free version"
+msgstr ""
+
+#: admin/abandoned/settings.php:135
+msgid "Allows you to send new coupon only for this template."
+msgstr ""
+
+#: admin/abandoned/settings.php:76
+msgid ""
+"Allows you to trigger webhook automatically upon cart abandonment and "
+"recovery."
+msgstr ""
+
+#: includes/class-whatsapp.php:347
+msgid "API Error: "
+msgstr ""
+
+#: admin/abandoned/settings.php:183
+msgid "Auto apply coupon"
+msgstr ""
+
+#: admin/abandoned/settings.php:185
+msgid "Automatically add the coupon to the cart at the checkout."
+msgstr ""
+
+#: wc-messaging.php:30
+msgid "Back to plugins"
+msgstr ""
+
+#: admin/partials/settings/general.php:82
+msgid "Billing & shipping number"
+msgstr ""
+
+#: admin/partials/settings/general.php:80
+msgid "Billing number"
+msgstr ""
+
+#: admin/abandoned/settings.php:119
+msgid "Body parameters"
+msgstr ""
+
+#: includes/class-whatsapp.php:248
+msgid "Body parameters missing"
+msgstr ""
+
+#: admin/partials/settings/config-settings-table.php:15
+msgid "Body variables"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:573
+msgid "Button name"
+msgstr ""
+
+#: admin/abandoned/settings.php:27
+msgid "Cart abandoned cut-off time"
+msgstr ""
+
+#: admin/abandoned/settings.php:21
+msgid ""
+"Cart will be considered abandoned if order is not completed in cart "
+"abandoned cut-off time."
+msgstr ""
+
+#: admin/partials/sidebar/premium-features.php:27
+msgid "Check demos and premium details"
+msgstr ""
+
+#: admin/abandoned/settings.php:179
+msgid ""
+"Check this box if the coupon can not be used in conjuction with other "
+"coupons."
+msgstr ""
+
+#: admin/partials/settings/general.php:71
+msgid "Checkout Opt-in"
+msgstr ""
+
+#: admin/abandoned/class-wcm-abandoned-checker.php:125
+msgid "class WCWhatsapp is not exists"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:314
+msgid "Collapse for additional settings"
+msgstr ""
+
+#: admin/partials/sidebar/premium-features.php:12
+msgid "Compatibility with WooCommerce Booking plugins"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:614
+msgid "Confirmed"
+msgstr ""
+
+#: admin/partials/settings/support.php:39
+msgid "Copy"
+msgstr ""
+
+#: admin/abandoned/settings.php:150
+msgid "Coupon amount"
+msgstr ""
+
+#: admin/abandoned/settings.php:173
+msgid "Coupon expiry date"
+msgstr ""
+
+#: admin/abandoned/settings.php:40
+msgid "Coupon Settings"
+msgstr ""
+
+#: admin/abandoned/settings.php:134
+msgid "Create coupon"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:565
+#: admin/class-wc-messaging-admin.php:571
+msgid "Custom trigger buttons"
+msgstr ""
+
+#: admin/partials/settings/general.php:105
+msgid "Customise this label, for showing on the checkout page"
+msgstr ""
+
+#: admin/partials/sidebar/premium-features.php:22
+msgid "Customized Widget"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:1223
+msgid "Data update successful."
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:246
+msgid "Day"
+msgstr ""
+
+#: admin/abandoned/settings.php:167
+msgid "Day(s)"
+msgstr ""
+
+#: admin/partials/sidebar/premium-features.php:21
+msgid "Dedicated Chat Menu"
+msgstr ""
+
+#: admin/abandoned/settings.php:55
+msgid "Delete"
+msgstr ""
+
+#: admin/abandoned/settings.php:46
+msgid "Delete Coupons Automatically"
+msgstr ""
+
+#: admin/abandoned/settings.php:47
+msgid "Delete coupons automatically on weekly basis."
+msgstr ""
+
+#: admin/abandoned/settings.php:54
+msgid "Delete Coupons Manually"
+msgstr ""
+
+#: admin/abandoned/coupon-delete.php:57
+msgid "Deleted Coupon ID"
+msgstr ""
+
+#: admin/partials/settings/support.php:19
+msgid "Diagnostic info"
+msgstr ""
+
+#: admin/partials/settings/general.php:83
+msgid "Disable"
+msgstr ""
+
+#: admin/abandoned/settings.php:141
+msgid "Discount type"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:1967
+#: admin/class-wc-messaging-admin.php:1994
+msgid "Docs"
+msgstr ""
+
+#: includes/class-whatsapp.php:445
+msgid "document is missing"
+msgstr ""
+
+#: admin/partials/sidebar/premium-features.php:14
+msgid "Document Send/Receive"
+msgstr ""
+
+#: admin/partials/settings/support.php:34
+msgid "Download"
+msgstr ""
+
+#: admin/partials/sidebar/premium-features.php:9
+msgid "Email support is available exclusively for WC Messaging Pro users"
+msgstr ""
+
+#: admin/abandoned/settings.php:115
+#: admin/partials/settings/config-settings-table.php:11
+msgid "Enable / disable"
+msgstr ""
+
+#: admin/partials/settings/general.php:54
+msgid "Enable debugging"
+msgstr ""
+
+#: admin/partials/settings/general.php:56
+msgid "Enable debugging to log errors in the debug.log file."
+msgstr ""
+
+#: admin/partials/settings/general.php:115
+msgid "Enable phone number custom validation at checkout"
+msgstr ""
+
+#: admin/abandoned/settings.php:19
+msgid "Enable tracking"
+msgstr ""
+
+#: admin/partials/sidebar/premium-features.php:11
+msgid "Enable two-way messaging with customers"
+msgstr ""
+
+#: admin/abandoned/settings.php:75
+msgid "Enable webhook"
+msgstr ""
+
+#: admin/abandoned/settings.php:169
+msgid "Enter zero to restrict coupon from expiring"
+msgstr ""
+
+#: includes/class-whatsapp.php:522
+msgid "Error saving the file."
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:2281
+msgid "Every 5 Minutes"
+msgstr ""
+
+#: admin/abandoned/coupon-delete.php:63
+msgid "expiring before"
+msgstr ""
+
+#: admin/abandoned/class-wcm-abandoned-checker.php:67
+msgid "Failed to create meta data of woom_abandonment_order_created"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:1765
+msgid "Failed to fetch post data"
+msgstr ""
+
+#: admin/abandoned/class-wcm-abandoned-checker.php:230
+msgid "Failed to generate coupon"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:2366
+msgid "Failed to remove coupons"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:1146
+msgid "Failed to retrieve data"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:470
+msgid "Failed to update"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:1763
+msgid "Failed to verify nonce"
+msgstr ""
+
+#: admin/partials/settings/support.php:13
+msgid "Features"
+msgstr ""
+
+#: includes/class-whatsapp.php:516
+msgid "File downloaded successfully:"
+msgstr ""
+
+#: includes/class-whatsapp.php:460
+msgid "File sent"
+msgstr ""
+
+#: includes/class-whatsapp.php:378
+msgid "File size exceeds the maximum allowed limit of 100MB."
+msgstr ""
+
+#: includes/class-whatsapp.php:418
+msgid "File uploaded succefully"
+msgstr ""
+
+#: admin/abandoned/settings.php:144
+msgid "Fixed discount"
+msgstr ""
+
+#: admin/partials/settings/support.php:30
+msgid ""
+"For a timely response via email from the developers who work on this plugin"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:376
+msgid "General"
+msgstr ""
+
+#: admin/partials/settings/general.php:104
+msgid "Get order updates on whatsapp"
+msgstr ""
+
+#: admin/abandoned/settings.php:118
+msgid "Header parameters"
+msgstr ""
+
+#: includes/class-whatsapp.php:260
+msgid "Header parameters missing"
+msgstr ""
+
+#: admin/partials/settings/config-settings-table.php:14
+msgid "Header variables"
+msgstr ""
+
+#: admin/partials/settings/support.php:26
+msgid "here"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:245
+msgid "Hour"
+msgstr ""
+
+#: admin/abandoned/settings.php:166
+msgid "Hour(s)"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://sevengits.com/"
+msgstr ""
+
+#. URI of the plugin
+msgid "https://sevengits.com/plugin/wc-messaging-pro"
+msgstr ""
+
+#: admin/abandoned/settings.php:177
+msgid "Individual use only"
+msgstr ""
+
+#: admin/partials/sidebar/premium-features.php:20
+msgid "Labels"
+msgstr ""
+
+#: includes/class-whatsapp.php:238
+msgid "Language is empty"
+msgstr ""
+
+#: admin/partials/settings/general.php:22
+#: admin/partials/settings/general.php:38
+#: admin/partials/settings/general.php:115
+msgid "learn more."
+msgstr ""
+
+#: admin/partials/sidebar/premium-features.php:23
+msgid "Mark as Read"
+msgstr ""
+
+#: includes/class-whatsapp.php:782
+msgid "Message not accepted by API."
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:1747
+msgid "Message sent successfully"
+msgstr ""
+
+#: includes/class-whatsapp.php:356
+msgid "Message sent successfully."
+msgstr ""
+
+#: admin/partials/sidebar/premium-features.php:19
+msgid "Message Templates"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:244
+msgid "Minute"
+msgstr ""
+
+#: admin/abandoned/settings.php:165
+msgid "Minute(s)"
+msgstr ""
+
+#: admin/abandoned/settings.php:28
+msgid "Minutes."
+msgstr ""
+
+#: admin/partials/sidebar/premium-features.php:16
+msgid "New Contact Addition from Chat Screen"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:1375
+msgid "New row added successfully"
+msgstr ""
+
+#: includes/class-whatsapp.php:362
+msgid "No message id returned from API."
+msgstr ""
+
+#: admin/abandoned/coupon-delete.php:63
+msgid "No valid coupons found with prefix"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:263
+#: admin/class-wc-messaging-admin.php:283
+msgid "No variables.."
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:1298
+msgid "Nonce missing"
+msgstr ""
+
+#: admin/abandoned/coupon-delete.php:69
+msgid "Nothing to delete"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:1857
+msgid "notification disabled in template configuration"
+msgstr ""
+
+#: admin/partials/settings/general.php:91
+msgid "Opt-in method"
+msgstr ""
+
+#: admin/abandoned/class-wcm-abandoned-checker.php:121
+msgid "Order ID is missing"
+msgstr ""
+
+#: admin/partials/settings/config-settings-table.php:10
+msgid "Order status"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:613
+msgid "Pending confirmation"
+msgstr ""
+
+#: admin/abandoned/settings.php:143
+msgid "Percentage discount"
+msgstr ""
+
+#: admin/partials/settings/general.php:37
+msgid "Phone number ID"
+msgstr ""
+
+#: admin/abandoned/class-wcm-abandoned-checker.php:254
+msgid "Phone number is missing"
+msgstr ""
+
+#: admin/partials/settings/general.php:112
+msgid "Phone number validation"
+msgstr ""
+
+#: wc-messaging.php:30
+msgid ""
+"Please deactivate the premium version of WC Messaging and activate the "
+"free version."
+msgstr ""
+
+#: public/class-wc-messaging-public.php:152
+msgid "Please enter valid phone number"
+msgstr ""
+
+#: admin/abandoned/class-wcm-abandoned-checker.php:175
+msgid "Please verify and update template. Otherwise something went wrong."
+msgstr ""
+
+#: admin/partials/sidebar/premium-features.php:29
+msgid "Premium Details"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:296
+msgid "Preview"
+msgstr ""
+
+#: admin/partials/sidebar/premium-features.php:18
+msgid "Quick Note Feature"
+msgstr ""
+
+#: admin/partials/sidebar/premium-features.php:15
+msgid "Quick Reply"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:305
+msgid "Remove"
+msgstr ""
+
+#: admin/abandoned/settings.php:96
+msgid "Save the webhook URL, then click \"trigger sample\"."
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:157
+msgid "Select a template"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:275
+msgid "Select variables.."
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:1312
+msgid "Selected template details"
+msgstr ""
+
+#: admin/partials/settings/general.php:95
+msgid "Send messages without customer consent"
+msgstr ""
+
+#: admin/partials/settings/general.php:77
+msgid "Send whatsapp notifications"
+msgstr ""
+
+#. Description of the plugin
+msgid ""
+"Send WhatsApp notifications for Woocommerce orders using  official "
+"WhatsApp Cloud APIs."
+msgstr ""
+
+#: admin/partials/settings/config-settings-table.php:13
+msgid "Sent to admin"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:1947
+msgid "Settings"
+msgstr ""
+
+#. Author of the plugin
+msgid "Sevengits"
+msgstr ""
+
+#: admin/partials/settings/general.php:81
+msgid "Shipping number"
+msgstr ""
+
+#: admin/partials/settings/general.php:94
+msgid "Show checkbox for customer consent"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:1295
+#: admin/class-wc-messaging-admin.php:1368 admin/abandoned/coupon-delete.php:26
+msgid "Something went wrong"
+msgstr ""
+
+#: includes/class-whatsapp.php:123
+msgid "Something went wrong..."
+msgstr ""
+
+#: admin/abandoned/settings.php:20
+msgid "Start capturing abandoned carts."
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:500
+#: admin/class-wc-messaging-admin.php:1999
+#: admin/partials/settings/support.php:13
+msgid "Support"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:396
+msgid "Support & Premium"
+msgstr ""
+
+#: admin/partials/settings/tools.php:34
+msgid "Sync now"
+msgstr ""
+
+#: admin/partials/settings/tools.php:30
+msgid "Synchronize whatsapp message templates from Facebook"
+msgstr ""
+
+#: admin/abandoned/settings.php:116
+#: admin/partials/settings/config-settings-table.php:12
+msgid "Template name"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:222
+msgid "template name"
+msgstr ""
+
+#: includes/class-whatsapp.php:235
+msgid "Template name is empty"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:1859
+msgid "Template name not specified"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:377
+msgid "Templates"
+msgstr ""
+
+#: admin/partials/settings/support.php:25
+msgid ""
+"This is a free plugin. You can request support in the official WordPress "
+"plugin directory"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:264
+#: admin/class-wc-messaging-admin.php:278
+msgid ""
+"This is text that you specify in the API that will be personalized to the "
+"customer, such as their name or order number."
+msgstr ""
+
+#: admin/abandoned/settings.php:48
+msgid ""
+"This option will set a weekly cron to delete all expired and used coupons "
+"automatically in the background."
+msgstr ""
+
+#: admin/abandoned/settings.php:56
+msgid ""
+"This will delete all expired and used coupons that were created by Woo Cart "
+"Abandonment Recovery."
+msgstr ""
+
+#: admin/abandoned/settings.php:29
+msgid ""
+"Treat the cart as abandoned if the order remains in a pending status and is "
+"not completed within the specified number of minutes"
+msgstr ""
+
+#: admin/abandoned/settings.php:114
+msgid "Trigger name"
+msgstr ""
+
+#: admin/abandoned/settings.php:89
+msgid "Trigger Sample"
+msgstr ""
+
+#: admin/abandoned/settings.php:117
+msgid "Trigger within"
+msgstr ""
+
+#: admin/partials/settings/general.php:38
+msgid "Unique phone number id given by whatsapp."
+msgstr ""
+
+#: admin/partials/settings/support.php:30
+msgid "upgrade to premium version"
+msgstr ""
+
+#. Name of the plugin
+#: admin/class-wc-messaging-admin.php:361
+#: admin/partials/settings/general.php:10 admin/partials/settings/tools.php:24
+msgid "WC Messaging"
+msgstr ""
+
+#: admin/abandoned/settings.php:13
+msgid "WC Messaging Abandoned Cart Settings"
+msgstr ""
+
+#: admin/partials/settings/general.php:11 admin/partials/settings/tools.php:25
+msgid "WC messaging configuration"
+msgstr ""
+
+#: admin/abandoned/class-wcm-abandoned-checker.php:399
+msgid "WC Messaging Pro abandoned coupon"
+msgstr ""
+
+#: public/class-wc-messaging-public.php:172
+msgid "WC Messaging: Notification disabled by Admin"
+msgstr ""
+
+#: public/class-wc-messaging-public.php:195
+msgid "WC Messaging: Notification to billing number disabled by Customer"
+msgstr ""
+
+#: public/class-wc-messaging-public.php:198
+msgid "WC Messaging: Notification to shipping number disabled by Customer"
+msgstr ""
+
+#: admin/partials/settings/support.php:28
+msgid ""
+"We are always looking for suggestions and feature requests. If you've found "
+"a bug, report it immediately so we can fix it as soon as possible."
+msgstr ""
+
+#: admin/abandoned/settings.php:81
+msgid "Webhook URL"
+msgstr ""
+
+#: admin/partials/settings/general.php:21
+msgid "Whatsapp access token"
+msgstr ""
+
+#: admin/partials/settings/general.php:16
+msgid "Whatsapp bussiness account ID"
+msgstr ""
+
+#: admin/partials/sidebar/premium-features.php:13
+msgid "WhatsApp Interactive Flows"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:1685
+msgid "Whatsapp notifications"
+msgstr ""
+
+#: admin/partials/settings/general.php:28
+msgid "Whatsapp number"
+msgstr ""
+
+#: admin/partials/settings/general.php:29
+msgid "Whatsapp number in international format without + sign."
+msgstr ""
+
+#: admin/partials/settings/general.php:48
+msgid ""
+"WhatsApp numbers, in international format without the \"+\" sign, separated "
+"by commas."
+msgstr ""
+
+#: admin/partials/settings/general.php:103
+msgid "WhatsApp opt-in checkbox message"
+msgstr ""
+
+#: admin/partials/settings/tools.php:31
+msgid ""
+"When you add new message templates in the Facebook WhatsApp message template "
+"section, they will not appear in the select box until you synchronize using "
+"this button."
+msgstr ""
+
+#: public/class-wc-messaging-public.php:155
+msgid "Whitespaces not allowed in phone number"
+msgstr ""
+
+#: admin/partials/settings/template.php:10
+#: admin/partials/settings/template.php:15
+msgid "Woocommerce"
+msgstr ""
+
+#: admin/class-wc-messaging-admin.php:286
+msgid "{{count}} variable missing"
+msgstr ""

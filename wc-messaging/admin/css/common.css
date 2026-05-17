@@ -1,0 +1,13 @@
+/**
+ * All of the CSS for your all plugins common admin-facing functionality should be
+ * included in this file.
+ */
+
+.get-pro-link {
+    color: #e75152 !important;
+    font-weight: bold !important;
+}
+
+table.woom-config-template-settings {
+    margin: 16px 0px;
+}
