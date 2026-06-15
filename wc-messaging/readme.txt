@@ -3,23 +3,17 @@ Contributors:sevengits,notiqoo
 Donate link: https://www.paypal.com/paypalme/amberpathLLP
 Tags: WhatsApp Business,WhatsApp Notification,WhatsApp API,WhatsApp chat,WooCommerce WhatsApp
 Requires at least: 4.0
-Tested up to: 6.9
-Stable tag: 1.4.10
+Tested up to: 7.0
+Stable tag: 1.4.11
 Requires PHP: 7.4
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
-Send WooCommerce WhatsApp notifications via official WhatsApp API for instant order updates, customer chat, and abandoned cart recovery
+Automate WooCommerce WhatsApp notifications using the official WhatsApp Cloud API for order updates, cart recovery, customer chats, and messaging.
 
 == Description ==
 
-WhatsApp Notification for WooCommerce made easy with **Notiqoo** (formerly WC Messaging). Notiqoo is a powerful and reliable WooCommerce WhatsApp notification plugin that integrates directly with the official WhatsApp Business Cloud API. It enables fast, automated WhatsApp notifications for WooCommerce orders, including order confirmation messages, order status updates, and important customer alerts—ensuring smooth, real-time communication through the WhatsApp API.
-We’ve rebranded! WC Messaging is now Notiqoo — with the same features, familiar settings, improved performance, and enhanced stability. [Read more about the rebranding](https://notiqoo.com/say-hello-to-notiqoo/?utm_source=wp&utm_medium=readme&utm_campaign=notiqoo-free).
-
-**Latest Update:** Improved compatibility with modern WooCommerce checkout flows, enhanced WhatsApp message delivery reliability, and smoother overall WooCommerce WhatsApp integration for better notification and chat performance.
-To use Notiqoo, you need a dedicated mobile number that is not connected to WhatsApp or WhatsApp Business on any mobile device. This number is used exclusively for the WhatsApp Cloud API, allowing dependable WhatsApp order notifications, automated alerts, and customer communication. You can still receive calls and SMS on this number, but it cannot be used with the WhatsApp mobile app.
-
-This is a mandatory requirement from Meta: a phone number can be used either for the WhatsApp API or the WhatsApp mobile app — not both.[Learn more about WhatsApp Cloud API number requirements](https://developers.facebook.com/docs/whatsapp/cloud-api/phone-numbers?utm_source=notiqoo.com&utm_medium=notiqoo.com&utm_campaign=notiqoo.com).
+WhatsApp Notification for WooCommerce made easy with **Notiqoo** (formerly WC Messaging). Notiqoo is a powerful WooCommerce WhatsApp plugin that integrates directly with the official WhatsApp Business API and WhatsApp Cloud API, enabling automated order notifications, real-time customer communication, WhatsApp chat, abandoned cart recovery, and advanced WooCommerce WhatsApp integration.
 
 👉 Upgrade to - [Notiqoo Pro](https://notiqoo.com/?utm_source=wp&utm_medium=readme&utm_campaign=notiqoo-free "Advanced WooCommerce WhatsApp Automation & CRM")
 👉 Read the Complete - [Documentation](https://notiqoo.com/docs/notiqoo/?utm_source=wp&utm_medium=readme&utm_campaign=notiqoo-free "Complete Notiqoo WhatsApp Setup & Usage Guide")
@@ -27,81 +21,118 @@ This is a mandatory requirement from Meta: a phone number can be used either for
 👉 Watch Step-by-Step - [Video Guides](https://www.youtube.com/@notiqoo-247 "Step-by-Step Notiqoo WhatsApp Tutorials")
 👉 Get Dedicated - [Support](https://notiqoo.com/contact/?utm_source=wp&utm_medium=readme&utm_campaign=notiqoo-free "Get Help with Notiqoo WooCommerce WhatsApp Plugin")
 
-**Notiqoo Pro**  takes communication to the next level with full two-way WhatsApp chat, allowing customers to contact your store instantly for support, inquiries, and follow-ups. It includes real-time WooCommerce WhatsApp chat, Click-to-Chat, advanced automation, WhatsApp OTP login & signup, OTP-verified Cash on Delivery (COD) validation, and enhanced customer engagement—making Notiqoo one of the most trusted WhatsApp message plugins for WooCommerce.
+Keep your customers informed with instant WhatsApp messages for order confirmations, order status updates, payment notifications, abandoned cart reminders, booking updates, and customer support interactions. Whether you are looking for WooCommerce WhatsApp notifications, WhatsApp Business messaging, WhatsApp automation, WhatsApp customer engagement, or a reliable WhatsApp integration for WooCommerce, Notiqoo provides everything you need to communicate with customers through the world's most popular messaging platform.
 
-In addition, Notiqoo Pro supports abandoned cart recovery via WhatsApp notifications, smart WhatsApp broadcast messaging, contact form to WhatsApp automation, and post-purchase product review collection through WhatsApp, helping store owners recover lost sales, reduce drop-offs, increase authentic reviews, and improve overall conversion rates.
+Designed specifically for WooCommerce, Notiqoo helps store owners improve customer satisfaction, reduce support requests, increase conversions, recover abandoned carts, and streamline customer communication using the official WhatsApp API.
 
-With powerful features like WhatsApp Business Messaging, WhatsApp Notification, WhatsApp Order Notification, WooCommerce WhatsApp Integration, WooCommerce WhatsApp Chat, message count tracking, GDPR-ready data retention controls, WhatsApp newsletter & contact list growth, and automated message workflows, Notiqoo delivers a seamless, secure, compliant, and scalable communication experience for WooCommerce store owners.
+We’ve rebranded! WC Messaging is now Notiqoo — with the same trusted features, familiar settings, improved performance, enhanced stability, and a stronger focus on WooCommerce WhatsApp communication.
+
+**Latest Update:** Enhanced compatibility with modern WooCommerce checkout experiences, improved WhatsApp message delivery reliability, optimized abandoned cart recovery workflows, and smoother WooCommerce WhatsApp chat performance.
+
+**Why Notiqoo**
+
+Notiqoo is more than just a WooCommerce WhatsApp notification plugin. It combines WhatsApp order notifications, customer communication, WhatsApp chat, automation, customer engagement, and WhatsApp CRM capabilities into a single WooCommerce-focused solution.
+
+1. **Official WhatsApp Business API Integration:** Connect your WooCommerce store directly to the official WhatsApp Business API and WhatsApp Cloud API for secure, reliable, and scalable customer communication.
+1. **Automated WooCommerce Notifications:** Automatically send WhatsApp notifications when customers place orders, complete payments, abandon carts, create bookings, or require important order updates.
+1. **Real-Time WhatsApp Communication:** Engage with customers through WhatsApp using real-time messaging, support conversations, order follow-ups, and customer service interactions.
+1. **Abandoned Cart Recovery:** Recover lost sales with automated WhatsApp abandoned cart recovery messages and personalized customer reminders.
+1. **Built for WooCommerce:** Unlike generic messaging platforms, Notiqoo is built specifically for WooCommerce and integrates seamlessly with WooCommerce orders, customers, products, bookings, and store workflows.
+1. **Customer Engagement & Automation:** Increase customer engagement using WhatsApp automation, WhatsApp broadcasts, Click-to-Chat, QR codes, widgets, message templates, and personalized messaging workflows.
+1. **Scalable for Growing Businesses:** Whether you run a small WooCommerce store or a high-volume eCommerce business, Notiqoo provides reliable WhatsApp messaging infrastructure designed to scale with your business.
+
+**Important Requirement** 
+
+To use Notiqoo, you need a dedicated phone number that is not currently connected to WhatsApp Messenger or WhatsApp Business on a mobile device.
+
+This phone number is used exclusively with the official WhatsApp Business API and WhatsApp Cloud API.
+
+You can still receive phone calls and SMS messages on this number, but it cannot be used simultaneously with the WhatsApp mobile application.
+
+This is a mandatory requirement from Meta. A phone number can be connected either to the WhatsApp Business API or to the WhatsApp mobile application, but not both at the same time.
+
+Using a dedicated number ensures reliable WhatsApp notifications, improved message delivery, and uninterrupted customer communication.[Read documentation](https://developers.facebook.com/docs/whatsapp/cloud-api/phone-numbers?utm_source=notiqoo.com&utm_medium=notiqoo.com&utm_campaign=notiqoo.com)
 
 **Powerful WhatsApp Notifications for WooCommerce**
 
-1. Send automated WhatsApp Notifications for WooCommerce when a new order is placed, ensuring instant order confirmation and customer updates through the WhatsApp Business Cloud API.
-1. Send WhatsApp Notifications for WooCommerce orders placed using the Cash on Delivery (COD) payment method, with optional OTP-based verification for improved order authenticity and reduced fake orders.
-1. Send WhatsApp Notifications for WooCommerce order status changes such as Processing, Completed, Failed, Refunded, and more—keeping customers informed at every stage of their purchase journey.
-1. Send WhatsApp Notifications for custom WooCommerce order statuses, fully compatible with your store’s workflow and advanced WooCommerce WhatsApp integration, including third-party and custom status plugins.
-1. Send WhatsApp Notifications for abandoned cart recovery, automatically reaching customers who leave products in their carts and helping store owners recover lost sales and boost conversions.
+Keep customers informed throughout every stage of their purchase journey with automated WooCommerce WhatsApp notifications powered by the official WhatsApp Business API.
 
-https://youtu.be/EZ8yaQcGVBQ?utm_source=wp&utm_medium=readme&utm_campaign=notiqoo-free
+* **New Order Notifications:** Automatically send WhatsApp order confirmation messages when customers place new orders on your WooCommerce store.
+* **Order Status Updates:** Send WhatsApp notifications when order statuses change, including Processing, On Hold, Completed, Failed, Refunded, Cancelled, and custom order statuses.
+* **Cash on Delivery (COD) Notifications:** Notify customers who place Cash on Delivery orders and optionally verify orders using WhatsApp OTP validation with Notiqoo Pro.
+* **Custom WooCommerce Status Support:** Works seamlessly with custom WooCommerce order statuses and third-party order status plugins.
+* **Booking & Appointment Notifications:** Send booking confirmations, reminders, and updates through WhatsApp when used with compatible WooCommerce booking plugins.
+* **Abandoned Cart Recovery Notifications:** Automatically send WhatsApp reminders to customers who leave products in their shopping carts without completing their purchase.
+* **Customer Support Notifications:** Keep customers updated regarding support requests, order issues, payment confirmations, shipping updates, and important store communications.
+* **Reliable WhatsApp Messaging:** Deliver fast and reliable WhatsApp messages using the official WhatsApp Cloud API without relying on unofficial gateways or third-party messaging services.
 
-**Notiqoo [free version]**
+**Notiqoo [Free Version]**
 
-* **Send WooCommerce Order Notifications:** Send WhatsApp Notifications for WooCommerce orders using the official WhatsApp Cloud API, ensuring fast and reliable order updates for customers.
-* **Custom Trigger Buttons:** Notiqoo provides custom trigger buttons on the WooCommerce order details page, allowing store admins to instantly send pre-defined WhatsApp Message Templates to customers with a single click—perfect for quick WooCommerce WhatsApp communication.
-* **Abandoned Cart Recovery:** Enable automated WhatsApp abandoned cart recovery messages to recover lost sales directly from the Notiqoo chat dashboard, helping you boost conversions and improve customer engagement.
+Start sending WooCommerce WhatsApp notifications using the official WhatsApp Business API and WhatsApp Cloud API. Notiqoo Free helps store owners automate customer communication, send order updates, improve customer engagement, and recover abandoned carts directly from WooCommerce.
 
-**Notiqoo Pro [premium version]**
+* **Send WooCommerce Order Notifications:** Automatically send WhatsApp notifications when customers place orders on your WooCommerce store. Keep customers informed with instant order confirmations, order updates, and important purchase notifications through WhatsApp.
+* **Official WhatsApp Business API Integration:** Connect your WooCommerce store directly to the official WhatsApp Business API and WhatsApp Cloud API for secure, reliable, and scalable WhatsApp messaging without relying on unofficial gateways.
+* **Custom Trigger Buttons:** Notiqoo provides custom trigger buttons on the WooCommerce order details page, allowing store administrators to instantly send predefined WhatsApp message templates to customers with a single click. Perfect for quick customer communication, order follow-ups, and support interactions.
+* **Abandoned Cart Recovery:** Recover lost sales with automated WhatsApp abandoned cart recovery messages. Reach customers who leave products in their shopping cart and encourage them to complete their purchase through timely WhatsApp reminders and follow-up notifications.
+* **WhatsApp Message Templates:** Create and send approved WhatsApp message templates for order notifications, customer communication, abandoned cart reminders, and business updates.
+* **WooCommerce WhatsApp Integration:** Built specifically for WooCommerce, Notiqoo provides seamless WhatsApp integration for order notifications, customer messaging, and store communication workflows.
+* **Reliable WhatsApp Messaging:** Deliver WhatsApp messages using the official WhatsApp Cloud API, ensuring better delivery rates, improved reliability, and compliance with WhatsApp Business platform requirements.
+* **Customer Communication Made Easy:** Improve customer experience with fast, automated WhatsApp notifications and keep customers updated throughout every stage of their order journey.
 
-* **All features of the free version:** The premium version includes everything from the Notiqoo Free plugin, offering complete WooCommerce WhatsApp Integration along with advanced automation, CRM, and customer engagement tools.
-* **Live WhatsApp Chat from WooCommerce Dashboard:** Notiqoo Pro lets you send and receive WhatsApp messages directly from your WordPress dashboard. Customer replies appear instantly inside WooCommerce, allowing you to chat in real time, respond faster, and manage all WhatsApp conversations without leaving the admin panel.
-* **WhatsApp OTP Login & Signup:** Allow customers to log in or register using OTP verification via WhatsApp, providing password-free authentication, higher login success rates, and reduced fake or invalid user registrations.
-* **OTP-Verified Cash on Delivery (COD):** Enable WhatsApp OTP–based COD order verification to confirm customer intent before order placement or processing, helping reduce fake orders, delivery failures, and return-to-origin (RTO) issues.
-* **Compatibility with WooCommerce Booking Plugins:** Seamlessly integrates with popular WooCommerce booking extensions, offering reliable WooCommerce WhatsApp notifications for booking confirmations, reminders, and updates.
-* **Quick Reply:** Respond to customer queries instantly using predefined quick replies, improving response time and support efficiency through WhatsApp Customer Chat.
-* **Mark as Read:** Easily mark all messages as read for smoother message handling and a more organized WhatsApp inbox.
-* **Block Users:** Block unwanted users directly from the chat window. Once blocked, both the business and the customer are restricted from sending further WhatsApp messages.
-* **Add New Contacts from Chat Screen:** Add new WhatsApp contacts directly from the chat panel and start conversations without leaving the Notiqoo dashboard.
-* **24-Hour Messaging Window Timer:** Automatically track the 24-hour WhatsApp messaging window to stay compliant with WhatsApp Business API rules and ensure timely responses.
-* **Quick Note Feature:** Add and manage internal notes during customer conversations, helping teams retain context, track discussions, and improve follow-up actions.
-* **Message Templates:** Use customizable WhatsApp Message Templates for fast, consistent, and professional communication—ideal for automated workflows, broadcasts, and repeat messaging.
-* **Labels:** Organize and categorize customer chats using labels to filter conversations, segment users, and manage follow-ups efficiently within your WhatsApp CRM.
-* **Dedicated Chat Menu:** Access all chat-related tools from a standalone chat menu, offering a cleaner interface and faster navigation for WhatsApp communications.
-* **WhatsApp Interactive Forms:** Allow customers to fill forms directly inside WhatsApp using interactive, step-by-step chat flows. Collect details like name, phone number, selections, and preferences without redirecting users outside WhatsApp—making the experience faster, smoother, and more conversion-friendly.
-* **Product Reviews via WhatsApp:** Automatically collect product reviews through WhatsApp flows after order completion, making it easier for customers to submit reviews and increasing authentic feedback.
-* **Smart WhatsApp Broadcasting:** Send WhatsApp broadcast messages to selected user segments using approved templates, with support for instant or scheduled delivery—ideal for promotions, updates, and campaigns.
-* **Document Send/Receive:** Send and receive documents directly through the Notiqoo Chat Dashboard, including invoices, order details, images, and support files.
-* **Message Count Tracking:** Track WhatsApp message usage to monitor limits, performance, and communication efficiency.
-* **GDPR & Data Retention Controls:** Manage data retention with automatic cleanup of temporary users, message logs, and chat history—supporting GDPR-ready, privacy-first communication.
-* **Contact Form WhatsApp Automation:** Automatically notify admins via WhatsApp when a website form is submitted and sync leads or customers into your WhatsApp contact list.
-* **Customized Widget:** Access multiple chat widget styles that allow customers to start a WhatsApp conversation instantly from your website.
-    1. **Click to Chat:** Generate a Click to Chat link that you can place anywhere—emails, blog posts, landing pages, or marketing campaigns—allowing customers to open a WhatsApp chat with your business instantly.
-    1. **WhatsApp QR Code:** Provide customers with a scannable WhatsApp QR Code that opens your business chat instantly. Ideal for product pages, brochures, invoices, store displays, and offline marketing materials.
-    1. **WhatsApp Chat Icon:** Enable a fully customizable WhatsApp Chat Icon on your website. Configure label text, default message, icon style, position, and visibility settings to encourage customer engagement.
-    1. **Shortcode:** Use the shortcode [woom-chat-widget] to display the WhatsApp chat icon anywhere on your website with flexible placement control.
+**Notiqoo Pro [Premium Version]**
+
+* **All features of the free version:** Notiqoo Pro includes everything available in Notiqoo Free and expands your WooCommerce WhatsApp integration with advanced WhatsApp chat, WhatsApp CRM, customer engagement, WhatsApp automation, customer support, and marketing tools powered by the official WhatsApp Business API.
+* **Live WhatsApp Chat from WooCommerce Dashboard:** Send and receive WhatsApp messages directly from your WordPress dashboard. Customer replies appear instantly inside WooCommerce, allowing you to manage customer conversations, support requests, and order inquiries in real time without leaving your store.
+* **WhatsApp OTP Login & Signup:** Allow customers to log in or register using WhatsApp OTP verification. Simplify authentication, improve login success rates, reduce fake registrations, and provide a seamless customer experience.
+* **OTP-Verified Cash on Delivery (COD):** Verify Cash on Delivery orders through WhatsApp OTP before processing. Reduce fake orders, delivery failures, return-to-origin (RTO) issues, and improve order authenticity.
+* **Compatibility with WooCommerce Booking Plugins:** Integrates seamlessly with popular WooCommerce booking and appointment plugins, enabling WhatsApp booking confirmations, reminders, notifications, and customer updates.
+* **Quick Reply:** Respond faster using predefined quick replies and improve customer support efficiency through real-time WhatsApp chat.
+* **Mark as Read:** Easily mark conversations as read and maintain an organized WhatsApp inbox for efficient communication management.
+* **Block Users:** Block unwanted contacts directly from the chat window. Once blocked, communication between the customer and business is restricted.
+* **Add New Contacts from Chat Screen:** Create and manage WhatsApp contacts directly from the chat dashboard and start conversations instantly.
+* **24-Hour Messaging Window Timer:** Monitor the WhatsApp customer service window to remain compliant with WhatsApp Business API policies and maximize engagement opportunities.
+* **Quick Note Feature:** Add private notes to customer conversations, helping support teams retain context, improve collaboration, and streamline follow-ups.
+* **Message Templates:** Create and use customizable WhatsApp message templates for notifications, automation, customer support, broadcasts, promotions, and recurring communication workflows.
+* **Labels:** Organize customer conversations using labels to improve segmentation, follow-ups, contact management, and WhatsApp CRM workflows.
+* **Dedicated Chat Menu:** Access all WhatsApp chat tools from a dedicated dashboard designed for faster navigation and improved productivity.
+* **WhatsApp Interactive Forms:** Allow customers to complete interactive forms directly inside WhatsApp. Collect names, phone numbers, preferences, selections, feedback, bookings, and customer information through guided conversational flows.
+* **Product Reviews via WhatsApp:** Automatically request product reviews after order completion and increase authentic customer feedback using WhatsApp review collection flows.
+* **Smart WhatsApp Broadcasting:** Send targeted WhatsApp broadcast messages to selected customer segments using approved templates. Schedule campaigns or send instant updates, promotions, announcements, and marketing messages.
+* **Document Send/Receive:** Exchange invoices, order documents, PDFs, product images, support files, and other attachments directly through the Notiqoo chat dashboard.
+* **Message Count Tracking:** Monitor WhatsApp message usage, communication activity, and customer engagement performance from a centralized dashboard.
+* **GDPR & Data Retention Controls:** Manage message logs, temporary users, and customer communication history with privacy-focused retention controls and automated cleanup options.
+* **Contact Form WhatsApp Automation:** Automatically notify administrators when forms are submitted and sync leads or customers into your WhatsApp contact list. Compatible with Contact Form 7, WPForms, Gravity Forms, Ninja Forms, Fluent Forms, and Formidable Forms.
+* **Customized Widget:** Choose from multiple WhatsApp chat widget styles that allow customers to start conversations instantly from your website.
+    * **Click to Chat:** Generate Click-to-Chat links for product pages, emails, landing pages, blog posts, advertisements, and marketing campaigns.
+    * **WhatsApp QR Code:** Allow customers to start a WhatsApp conversation instantly by scanning a QR code. Perfect for websites, invoices, brochures, packaging, retail stores, and offline marketing.
+    * **WhatsApp Chat Icon:** Display a fully customizable WhatsApp chat icon on your website. Configure labels, greetings, default messages, positioning, and visibility settings to increase customer engagement.
+    * **Shortcode:** Use the shortcode [woom-chat-widget] to display the WhatsApp chat widget anywhere on your website with complete placement flexibility.
+* **Built-In WhatsApp CRM:** Manage customer conversations, contacts, labels, notes, message history, and engagement activities from a centralized WhatsApp CRM designed specifically for WooCommerce.
+* **Advanced WhatsApp Automation:** Automate customer communication, abandoned cart recovery, review requests, notifications, follow-ups, broadcasts, and engagement campaigns using WhatsApp automation workflows.
 
 **10 Key Advantages of Notiqoo Pro**
 
-1. **Instant WooCommerce WhatsApp Notifications**
- Send automatic WhatsApp notifications for orders, updates, bookings, inquiries, abandoned carts, and COD order confirmations. Customers stay informed instantly, boosting trust, engagement, and conversion rates.
-1. **Real-Time Two-Way WhatsApp Chat**
- Communicate directly with customers using WhatsApp Chat from the WordPress dashboard. Send messages, receive replies instantly, and manage conversations efficiently, enabling seamless WooCommerce WhatsApp customer interaction.
-1. **Built-In WhatsApp CRM Tools**
- Organize chats with labels, quick notes, and quick replies. Mark messages as read, track message counts, and manage GDPR-compliant data retention—all from a lightweight WhatsApp CRM for WooCommerce.
-1. **Abandoned Cart Recovery**
- Recover lost sales with automated WhatsApp Notifications for abandoned carts. Smart reminders and targeted messages encourage customers to complete purchases, improving overall sales.
-1. **WhatsApp Notifications for Forms**
- Receive instant notifications for submissions from [Contact Form 7](https://wordpress.org/plugins/contact-form-7/?utm_source=notiqoo.com&utm_medium=notiqoo.com&utm_campaign=notiqoo.com), [Gravity Forms](https://www.gravityforms.com/?utm_source=notiqoo.com&utm_medium=notiqoo.com&utm_campaign=notiqoo.com), [WPForms](https://wordpress.org/plugins/wpforms-lite/?utm_source=notiqoo.com&utm_medium=notiqoo.com&utm_campaign=notiqoo.com),[Ninja Forms](https://wordpress.org/plugins/ninja-forms/?utm_source=notiqoo.com&utm_medium=notiqoo.com&utm_campaign=notiqoo.com), [Formidable Forms](https://wordpress.org/plugins/formidable/?utm_source=notiqoo.com&utm_medium=notiqoo.com&utm_campaign=notiqoo.com), and [Fluent Forms](https://wordpress.org/plugins/fluentform/?utm_source=notiqoo.com&utm_medium=notiqoo.com&utm_campaign=notiqoo.com). Automate WhatsApp messages for leads, inquiries, and new WooCommerce customers.
-1. **Multiple Customer Engagement Options**
- Customers can start chats via Click to Chat links, WhatsApp QR codes, chat icons, widgets, or shortcodes. Makes contacting your store easy, instant, and flexible.
-1. **Interactive WhatsApp Flows**
- Guide customers step-by-step with multi-screen interactive WhatsApp flows for support, bookings, reviews, data collection, and post-purchase follow-ups.
-1. **Advanced Contact & Message Management**
- Add new contacts, block users, track the 24-hour messaging window, send and receive documents, and manage chats—all from the Notiqoo dashboard with real-time updates.
-1. **WooCommerce Booking Plugin Support**
- Send automated WhatsApp confirmations, reminders, and follow-ups for bookings. Ideal for service-based businesses using WooCommerce Booking plugins and appointment systems.
-1. **Faster Support, Higher Conversions & Customer Retention**
- Improve response time, provide real-time customer support via WhatsApp, recover abandoned carts, collect post-purchase reviews, and increase sales—all using Notiqoo Pro’s comprehensive automation and messaging tools.
+1. Instant WooCommerce WhatsApp Notifications:Send automated WhatsApp notifications for new orders, order updates, bookings, inquiries, abandoned carts, and Cash on Delivery confirmations. Keep customers informed in real time and improve customer satisfaction throughout the purchase journey.
+1. Real-Time Two-Way WhatsApp Chat:Communicate directly with customers from your WordPress dashboard. Send messages, receive replies instantly, answer questions faster, and provide efficient customer support through WhatsApp.
+1. Built-In WhatsApp CRM:Manage customer conversations using labels, quick notes, contact management, quick replies, and message history. Organize customer interactions efficiently with a WhatsApp CRM built specifically for WooCommerce.
+1. Abandoned Cart Recovery:Recover lost sales with automated WhatsApp abandoned cart recovery campaigns. Send timely reminders and personalized follow-ups to encourage customers to complete their purchases.
+1. WhatsApp Notifications for Forms:Receive instant WhatsApp notifications when customers submit forms through Contact Form 7, WPForms, Gravity Forms, Ninja Forms, Fluent Forms, and Formidable Forms. Automatically capture leads and improve response times.
+1. Multiple Customer Engagement Options:Allow customers to contact your business through WhatsApp chat widgets, Click-to-Chat links, WhatsApp QR Codes, chat icons, and shortcodes. Make customer communication simple, accessible, and convenient.
+1. Interactive WhatsApp Flows:Create engaging customer experiences using interactive WhatsApp forms, review collection workflows, support requests, bookings, onboarding processes, and lead capture flows.
+1. Advanced Contact & Message Management:Add contacts, block users, organize conversations with labels, track messaging windows, exchange documents, and manage customer communication from a centralized WhatsApp dashboard.
+1. WooCommerce Booking Plugin Support:Send booking confirmations, appointment reminders, and booking updates through WhatsApp when integrated with compatible WooCommerce booking and appointment plugins.
+1. Faster Support, Higher Conversions & Customer Retention: Improve customer engagement, reduce abandoned carts, provide faster support, collect product reviews, automate communication, and build long-term customer relationships using WhatsApp Business Messaging.
 
-> **New Features Included:** WhatsApp OTP login/signup, OTP-verified COD, product reviews via WhatsApp, smart broadcasting, GDPR & data retention, post-purchase follow-ups
+**New Features Included**
+
+1. WhatsApp OTP Login & Signup
+1. OTP-Verified Cash on Delivery (COD)
+1. Product Reviews via WhatsApp
+1. Smart WhatsApp Broadcasting
+1. GDPR & Data Retention Controls
+1. Post-Purchase Customer Engagement Workflows
+
+https://youtu.be/EZ8yaQcGVBQ?utm_source=wp&utm_medium=readme&utm_campaign=notiqoo-free
 
 **Notiqoo Pro Add-on Plugins**
 
@@ -131,7 +162,7 @@ Streamline customer communication with WhatsApp automation. Automator for Notiqo
 
 Create intelligent workflows using rule-based triggers and personalize every message with dynamic variables such as customer name, order details, product info, and more. Reduce manual tasks, respond faster, and keep your customers informed automatically—enhancing your WooCommerce WhatsApp integration and overall customer engagement.
 
-**Disclaimer:**  All trademarks, logos, and brand names mentioned in this plugin are the property of their respective owners. This plugin is not affiliated with or endorsed by WhatsApp or any of its affiliates.
+**Disclaimer:** All trademarks, logos, and brand names mentioned in this plugin are the property of their respective owners. This plugin is not affiliated with or endorsed by WhatsApp or any of its affiliates.
 
 
 == Installation ==
@@ -214,6 +245,11 @@ Please consider leaving a [Review on the WordPress Plugin Directory](https://wor
 Your review helps us keep the plugin 100% free and continue providing free updates, support, and maintenance.
 
 Thank you for supporting open-source ❤️
+
+**1.4.11 - 08 JUN 2026**
+
+* **Improvement:** Compatible with WordPress 7.0
+* **Improvement:** Compatible with WooCommerce 10.8
 
 **1.4.10 - 20 APR 2026**
 
