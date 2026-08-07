@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/paypalme/amberpathLLP
 Tags: WhatsApp Business,WhatsApp Notification,WhatsApp API,WhatsApp chat,WooCommerce WhatsApp
 Requires at least: 4.0
 Tested up to: 7.0
-Stable tag: 1.4.11
+Stable tag: 1.4.12
 Requires PHP: 7.4
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
@@ -245,6 +245,10 @@ Please consider leaving a [Review on the WordPress Plugin Directory](https://wor
 Your review helps us keep the plugin 100% free and continue providing free updates, support, and maintenance.
 
 Thank you for supporting open-source ❤️
+
+**1.4.12 - 07 AUG 2026**
+
+* **Improvement:** Compatible with WooCommerce 11.0
 
 **1.4.11 - 08 JUN 2026**
 
