@@ -3,8 +3,8 @@ Contributors:sevengits,notiqoo
 Donate link: https://www.paypal.com/paypalme/amberpathLLP
 Tags: WhatsApp Business,WhatsApp Notification,WhatsApp API,WhatsApp chat,WooCommerce WhatsApp
 Requires at least: 4.0
-Tested up to: 7.0
-Stable tag: 1.4.12
+Tested up to: 7.1
+Stable tag: 1.4.14
 Requires PHP: 7.4
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
@@ -245,6 +245,20 @@ Please consider leaving a [Review on the WordPress Plugin Directory](https://wor
 Your review helps us keep the plugin 100% free and continue providing free updates, support, and maintenance.
 
 Thank you for supporting open-source ❤️
+
+**1.4.14 - 04 SEP 2026**
+
+* **Improvement:** Hardened AJAX option handling and permissions to prevent unauthorized access to WordPress settings
+* **Improvement:** Compatible with WooCommerce 11.1
+
+**1.4.13 - 29 AUG 2026**
+
+* **Improvement:** Fixed a security vulnerability affecting AJAX actions that could allow users with insufficient privileges to modify WordPress options and perform unauthorized administrative actions.Special thanks to **Seongwon Lee** for responsibly reporting the security vulnerability and helping us improve the security of Notiqoo
+* **Improvement:** Added proper capability checks to AJAX handlers in addition to nonce verification
+* **Improvement:** Restricted option read/write operations to approved plugin-specific options
+* **Improvement:** Removed unnecessary unauthenticated access from AJAX actions that do not require public access
+* **Improvement:** Hardened the plugin's AJAX request handling to prevent unauthorized configuration changes
+* **Improvement:** Compatible with WordPress 7.1
 
 **1.4.12 - 07 AUG 2026**
 

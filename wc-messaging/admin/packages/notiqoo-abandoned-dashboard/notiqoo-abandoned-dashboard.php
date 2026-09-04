@@ -1,5 +1,5 @@
 <?php
-if(!defined('ABSPATH')) exit;
+if (!defined('ABSPATH')) exit;
 class notiqoo_abandoned_dashboard
 {
     public function __construct()
@@ -12,7 +12,8 @@ class notiqoo_abandoned_dashboard
 
         // AJAX actions for logged-in and guests (if needed)
         add_action('wp_ajax_notiqoo_fetch_abandoned_cart_stats', array($this, 'fetch_abandoned_cart_stats'));
-        add_action('wp_ajax_nopriv_notiqoo_fetch_abandoned_cart_stats', array($this, 'fetch_abandoned_cart_stats'));
+        // Disabled nopriv registration for security hotfix. Only logged-in AJAX allowed.
+        // add_action('wp_ajax_nopriv_notiqoo_fetch_abandoned_cart_stats', array($this, 'fetch_abandoned_cart_stats'));
     }
     public function register_dashboard_widget()
     {
@@ -70,8 +71,14 @@ class notiqoo_abandoned_dashboard
 
     public function fetch_abandoned_cart_stats()
     {
+        if (!isset($_POST['abdn_security'])) {
+            return wp_send_json(array('success' => false, 'message' => __('Verification token missing', 'wc-messaging')), 403);
+        }
+        // Capability check: only allow administrators (manage_options) to perform this action
+        if (! current_user_can('manage_woocommerce')) {
+            return wp_send_json(array('success' => false, 'message' => __('Insufficient permissions', 'wc-messaging')), 403);
+        }
         $security = isset($_POST['abdn_security']) ? sanitize_text_field(wp_unslash($_POST['abdn_security'])) : '';
-
         if (! $security || ! wp_verify_nonce($security, 'abdn_action')) {
             wp_send_json_error(['message' => 'Nonce verification failed.'], 403);
             exit;

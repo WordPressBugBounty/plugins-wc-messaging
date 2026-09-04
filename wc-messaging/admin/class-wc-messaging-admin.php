@@ -98,9 +98,19 @@ class Woom_Messaging_Admin
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-		wp_enqueue_script('chosen', plugin_dir_url(__FILE__) . 'packages/chosen/chosen.jquery.min.js', array('jquery'), '1.8.7', true);
-		wp_enqueue_script($this->plugin_name . '-admin', plugin_dir_url(__FILE__) . 'js/wc-messaging-admin.js', array('jquery'), $this->version, true);
-		wp_localize_script($this->plugin_name . '-admin', 'woom_ajax', array('url' => admin_url('admin-ajax.php'), 'woom_post_nonce' => wp_create_nonce('woom-ajax-post')));
+		// WooCommerce Order Details page
+		$is_order_details = isset($_GET['page'], $_GET['action']) && $_GET['page'] === 'wc-orders' && $_GET['action'] === 'edit';
+		// WooCommerce Settings → your tab
+		$is_woom_settings = is_admin()
+			&& isset($_GET['page'], $_GET['tab'])
+			&& $_GET['page'] === 'wc-settings'
+			&& $_GET['tab'] === 'woom_settings';
+
+		if ($is_order_details || $is_woom_settings) {
+			wp_enqueue_script('chosen', plugin_dir_url(__FILE__) . 'packages/chosen/chosen.jquery.min.js', array('jquery'), '1.8.7', true);
+			wp_enqueue_script($this->plugin_name . '-admin', plugin_dir_url(__FILE__) . 'js/wc-messaging-admin.js', array('jquery'), $this->version, true);
+			wp_localize_script($this->plugin_name . '-admin', 'woom_ajax', array('url' => admin_url('admin-ajax.php'), 'woom_post_nonce' => wp_create_nonce('woom-ajax-post')));
+		}
 	}
 
 	/**
@@ -130,7 +140,18 @@ class Woom_Messaging_Admin
 	function woom_report_error($error = '')
 	{
 		if ($this->woom_checkbox_valid(get_option('woom_enable_report_error'))) {
-			// error_log(print_r($error, true));
+
+			if ($_SERVER['HTTP_HOST'] === 'localhost' || strpos($_SERVER['HTTP_HOST'], '.local') !== false) {
+				error_log(print_r($error, true));
+			} else {
+				$message = is_string($error) ? $error : print_r($error, true);
+				if (function_exists('wc_get_logger')) {
+					$logger = wc_get_logger();
+					$logger->error($message, array('source' => 'notiqoo-logger'));
+				} else {
+					error_log($message);
+				}
+			}
 		}
 	}
 
@@ -168,9 +189,14 @@ class Woom_Messaging_Admin
 		$template_name_list = array('' => __('Select a template', 'wc-messaging'));
 		$template_param_count_list = array();
 		$available_params = array();
-
-		foreach ($this->woom_whatsapp_class->woom_get_mparams('keys', 'array') as $value) {
-			$available_params[$value] = $value;
+		if ($section == 'woom_abandoned_cart_trigger') {
+			foreach ($this->woom_whatsapp_class->woom_get_mparams(array('type' => 'keys', 'method' => 'array', 'cart_obj' => null)) as $value) {
+				$available_params[$value] = $value;
+			}
+		} else {
+			foreach ($this->woom_whatsapp_class->woom_get_mparams(array('type' => 'keys', 'method' => 'array', 'order' => null)) as $value) {
+				$available_params[$value] = $value;
+			}
 		}
 		if (is_array($templates)) {
 			$template_ids = array_keys($templates);
@@ -457,10 +483,6 @@ class Woom_Messaging_Admin
 			<div class="nq-subtabs-container">
 				<?php
 				printf('<ul class="subsubsub">%1$s</ul>', wp_kses_post($links_html));
-				if ($current_section === 'templates') {
-					printf('<a href="https://business.facebook.com/latest/whatsapp_manager/" target="_blank">%1$s</a>', esc_html('Go to Facebook Whatsapp Manager', 'wc-messaging'));
-				}
-
 				?>
 			</div>
 		<?php
@@ -484,8 +506,23 @@ class Woom_Messaging_Admin
 			<tr class="clear_transients">
 				<th>
 					<?php
-					printf('<strong class="name">%1$s</strong>', esc_html($link['name']));
-					printf('<p class="description">%1$s</p>', esc_html($link['desc'])); ?>
+					$allowed_html = array(
+						'a' => array(
+							'href'  => array(),
+							'title' => array(),
+							'class' => array(),
+							'target' => array(),
+						),
+						'div'  => array(
+							'class' => array(),
+						),
+						'span' => array('class' => array()),
+						'strong' => array('class' => array()),
+						'br' => array(),
+					);
+					printf('<p class="name">%1$s</p>', wp_kses($link['name'], $allowed_html));
+					printf('<div class="description">%1$s</div>', wp_kses($link['desc'], $allowed_html));
+					?>
 				</th>
 				<td class="run-tool">
 					<?php
@@ -532,10 +569,16 @@ class Woom_Messaging_Admin
 
 	function woom_update_wa_templates()
 	{
+		if (!isset($_POST['data']['woom_nonce'])) {
+			return wp_send_json(array("success" => false, "message" => __('verification token missing', 'wc-messaging')), 403);
+		}
+		// Capability check: only allow administrators (manage_options) to perform this action
+		if (! current_user_can('manage_options')) {
+			return wp_send_json(array("success" => false, "message" => __('Insufficient permissions', 'wc-messaging')), 403);
+		}
 		$result = array("success" => false, "templates" => array(), "message" => __("Failed to update", 'wc-messaging'));
 		if ($_POST !== null) :
-			if (!empty(sanitize_text_field(wp_unslash($_POST['data']['woom_nonce']))) && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['data']['woom_nonce'])), 'woom-ajax-post') && !empty(sanitize_text_field(wp_unslash($_POST['data']['woom_access_token'])))) {
-				$token = sanitize_text_field(wp_unslash($_POST['data']['woom_access_token']));
+			if (wp_verify_nonce(sanitize_key($_POST['data']['woom_nonce']), 'woom-ajax-post')) {
 				$template_results = $this->woom_get_message_templates();
 				$result = array("success" => $template_results['success'], "templates" => $template_results['data'], "message" => $template_results['message']);
 			}
@@ -547,13 +590,7 @@ class Woom_Messaging_Admin
 			$class = 'notice notice-error';
 		}
 		$result = array("success" => $result['success'], "message" => $result['message']);
-		$result['data'] = sprintf('<div class="%1$s"><p>%2$s</p></div>', esc_attr($class), wp_kses(
-			$result['message'],
-			array(
-				'div' => array('class' => array()),
-				'a' => array('class' => array(), 'href' => array(), 'target' => array()),
-			)
-		));
+		$result['data'] = sprintf('<div class="%1$s"><p>%2$s</p></div>', esc_attr($class), esc_html($result['message']));
 		return wp_send_json($result);
 	}
 
@@ -1162,82 +1199,74 @@ class Woom_Messaging_Admin
 			$fields['desc_tip'] = false;
 		}
 	?>
+		<tr class="">
+			<th scope="row" class="titledesc">
+				<?php
+				echo esc_html($fields['name']);
 
-		<table class="form-table">
+				if (isset($fields['desc']) && $fields['desc_tip'] === true) {
+					echo wp_kses_post(wc_help_tip($fields['desc']));
+				}
+				?></th>
+			<td class="forminp forminp-checkbox ">
+				<fieldset>
+					<label for="<?php echo esc_attr($fields['id']); ?>">
 
-			<tbody>
-				<tr class="">
-					<th scope="row" class="titledesc">
 						<?php
-						echo esc_html($fields['name']);
-
-						if (isset($fields['desc']) && $fields['desc_tip'] === true) {
-							echo wp_kses_post(wc_help_tip($fields['desc']));
-						}
-						?></th>
-					<td class="forminp forminp-checkbox ">
-						<fieldset>
-							<label for="<?php echo esc_attr($fields['id']); ?>">
-
-								<?php
-								# available field types: button, input:text, checkbox
-								switch ($fields['field_type']) {
-									case 'button':
-										if (!isset($fields['button_text'])) {
-											$fields['button_text'] = $fields['name'];
-										}
-										$custom_attributes = '';
-										if (isset($fields['custom_attributes'])) {
-											foreach ($fields['custom_attributes'] as $attr_key => $attr_val) {
-												if (!empty($custom_attributes)) {
-													$custom_attributes .= ' ';
-												}
-												$custom_attributes .= sprintf('%1$s=%2$s', $attr_key, $attr_val);
-											}
-										}
-										printf('<button class="button" %2$s>%1$s</button>', esc_html($fields['button_text']), esc_attr($custom_attributes));
-										break;
-									case 'checkbox':
-										$field_val = get_option($fields['id'], 'no');
-								?>
-										<input type="checkbox"
-											name="<?php echo esc_attr($fields['id']); ?>"
-											id="<?php echo esc_attr($fields['id']); ?>"
-											<?php echo ($field_val === 'yes') ? esc_attr('checked') : ''; ?>
-											value="yes" />
-									<?php
-										break;
-
-									default:
-									?>
-										<input
-											type="<?php echo esc_attr($fields['field_type']); ?>"
-											name="<?php echo esc_attr($fields['id']); ?>"
-											id="<?php echo esc_attr($fields['id']); ?>"
-											placeholder="<?php echo esc_attr($placeholder); ?>"
-											value="<?php echo esc_attr($field_val); ?>" />
-								<?php
-										# code...
-										break;
+						# available field types: button, input:text, checkbox
+						switch ($fields['field_type']) {
+							case 'button':
+								if (!isset($fields['button_text'])) {
+									$fields['button_text'] = $fields['name'];
 								}
-								if ($fields['desc_tip'] !== true) {
-									printf('<span>%s</span>', wp_kses_post($fields['desc']));
+								$custom_attributes = '';
+								if (isset($fields['custom_attributes'])) {
+									foreach ($fields['custom_attributes'] as $attr_key => $attr_val) {
+										if (!empty($custom_attributes)) {
+											$custom_attributes .= ' ';
+										}
+										$custom_attributes .= sprintf('%1$s=%2$s', $attr_key, $attr_val);
+									}
 								}
-
-								?>
-							</label>
-						</fieldset>
-						<?php
-						if ($fields['note'] !== true) {
-							printf('<b>Note: </b><span>%s</span>', wp_kses_post($fields['note']));
-						}
+								printf('<button class="button" %2$s>%1$s</button>', esc_html($fields['button_text']), esc_attr($custom_attributes));
+								break;
+							case 'checkbox':
+								$field_val = get_option($fields['id'], 'no');
 						?>
-					</td>
-				</tr>
+								<input type="checkbox"
+									name="<?php echo esc_attr($fields['id']); ?>"
+									id="<?php echo esc_attr($fields['id']); ?>"
+									<?php echo ($field_val === 'yes') ? esc_attr('checked') : ''; ?>
+									value="yes" />
+							<?php
+								break;
 
+							default:
+							?>
+								<input
+									type="<?php echo esc_attr($fields['field_type']); ?>"
+									name="<?php echo esc_attr($fields['id']); ?>"
+									id="<?php echo esc_attr($fields['id']); ?>"
+									placeholder="<?php echo esc_attr($placeholder); ?>"
+									value="<?php echo esc_attr($field_val); ?>" />
+						<?php
+								# code...
+								break;
+						}
+						if ($fields['desc_tip'] !== true) {
+							printf('<span>%s</span>', wp_kses_post($fields['desc']));
+						}
 
-			</tbody>
-		</table>
+						?>
+					</label>
+				</fieldset>
+				<?php
+				if ($fields['note'] !== true) {
+					printf('<b>Note: </b><span>%s</span>', wp_kses_post($fields['note']));
+				}
+				?>
+			</td>
+		</tr>
 	<?php
 	}
 
@@ -1556,6 +1585,10 @@ class Woom_Messaging_Admin
 			$result['message'] = __('Nonce missing', 'wc-messaging');
 			return wp_send_json($result);
 		}
+		// Capability check: only allow administrators (manage_options) to perform this action
+		if (! current_user_can('manage_options')) {
+			return wp_send_json(array('success' => false, 'message' => __('Insufficient permissions', 'wc-messaging')), 403);
+		}
 		if ($_POST !== null) :
 			if (wp_verify_nonce(sanitize_key($_POST['data']['woom_nonce']), 'woom-ajax-post')) {
 				# popup template starts here 
@@ -1583,7 +1616,7 @@ class Woom_Messaging_Admin
 							$field_name = 'header_format';
 						}
 						if (is_string($field_val)) {
-							if (!str_contains($field_name, 'params_count') && !in_array($field_name, $exclude_fields)) {
+							if (strpos($field_name, 'params_count') === false && !in_array($field_name, $exclude_fields)) {
 								if (strtolower($field_name) === 'footer') {
 									$template_footer = sprintf('<tr><td><b>%1$s</b></td><td>%2$s</td></tr>', esc_html(ucfirst($field_name)), esc_html(wp_kses($field_val, array())));
 								} else {
@@ -1654,29 +1687,36 @@ class Woom_Messaging_Admin
 	 */
 	function woom_save_custom_template_options()
 	{
-
+		$status_code = 403;
 		if (!isset($_POST['data']['woom_nonce'])) {
-			return;
+			return wp_send_json(array("status" => 'failed', "message" => __('Verify token missing', 'wc-messaging')), $status_code);
+		}
+		// Capability check: only allow administrators (manage_options) to perform this action
+		if (! current_user_can('manage_options')) {
+			return wp_send_json(array("status" => 'failed', "message" => __('Insufficient permissions', 'wc-messaging')), $status_code);
 		}
 		if (!isset($_POST['data']['key'])) {
-			return;
+			return wp_send_json(array("status" => 'failed', "message" => __('New row id missing', 'wc-messaging')), $status_code);
 		}
 		$result = array("status" => 'failed', "message" => __('Something went wrong', 'wc-messaging'));
+
 		if (isset($_POST)) :
+
 			if (wp_verify_nonce(sanitize_key($_POST['data']['woom_nonce']), 'woom-ajax-post')) {
 				$key = sanitize_text_field(sanitize_key($_POST['data']['key']));
 				$actions_key = (!empty(sanitize_text_field(wp_unslash($_POST['data']['actions_key'])))) ? sanitize_text_field(wp_unslash($_POST['data']['actions_key'])) : '';
-				if (!empty($actions_key)) {
+				if (!empty($actions_key) && explode('_', $actions_key)[0] === 'woom') {
 					$key_arr = get_option($actions_key, array('action_1'));
 					array_push($key_arr, $key);
 					update_option($actions_key, $key_arr);
 					$result = array("status" => 'success', "message" => __('New row added successfully', 'wc-messaging'));
+					$status_code = 200;
 				} else {
 					$result = array("status" => 'failed', "message" => __('something went wrong', 'wc-messaging'));
 				}
 			}
 		endif;
-		return wp_send_json($result);
+		return wp_send_json($result, $status_code);
 	}
 
 	/**
@@ -1687,11 +1727,16 @@ class Woom_Messaging_Admin
 	 */
 	function woom_remove_custom_template_options()
 	{
+		$status_code = 403;
 		if ((empty(sanitize_key(wp_unslash($_POST['data']['woom_nonce']))))) {
-			return;
+			return wp_send_json(array('status' => 'failed', 'message' => __('Verification token missing', 'wc-messaging')), $status_code);
+		}
+		// Capability check: only allow administrators (manage_options) to perform this action
+		if (! current_user_can('manage_options')) {
+			return wp_send_json(array('status' => 'failed', 'message' => __('Insufficient permissions', 'wc-messaging')), $status_code);
 		}
 		if ((empty(sanitize_text_field(wp_unslash($_POST['data']['prefix']))))) {
-			return;
+			return wp_send_json(array('status' => 'failed', 'message' => __('table row id missing', 'wc-messaging')), $status_code);
 		}
 
 		if (isset($_POST)) :
@@ -1700,19 +1745,26 @@ class Woom_Messaging_Admin
 
 				if (!empty($actions_container)) {
 					$prefix = sanitize_text_field(wp_unslash($_POST['data']['prefix']));
+					if ($prefix === 'x') {
+						wp_send_json_error(array('status' => 'failed', 'message' => __('Invalid row id', 'wc-messaging')), 403);
+					}
 					$action_name = (!empty(sanitize_text_field(wp_unslash($_POST['data']['item'])))) ? sanitize_text_field(wp_unslash($_POST['data']['item'])) : null;
 					$woom_trigger_actions = get_option($actions_container, array('action_1'));
 
 					$opts = array('_label', '_enabled', '_template', '_sent_admin', '_header_params', '_body_params', '_remove');
 					foreach ($opts as $opt) {
-						delete_option($prefix . '_' . $action_name . $opt);
+						if (get_option($prefix . '_' . $action_name . $opt) !== false) {
+							delete_option($prefix . '_' . $action_name . $opt);
+						}
 					}
 					update_option($actions_container, array_diff($woom_trigger_actions, array($action_name)));
 					$result = array('status' => 'success', 'message' => "trigger action $action_name removed");
+					$status_code = 200;
 				} else {
 					$result = array('status' => 'error', 'message' => __("Something went wrong", 'wc-messaging'));
+					$status_code = 403;
 				}
-				return wp_send_json($result);
+				return wp_send_json($result, $status_code);
 			}
 		endif;
 	}
@@ -1772,7 +1824,11 @@ class Woom_Messaging_Admin
 						if (!empty($has_coupon)) {
 
 							$abandoned_checker = new Wcm_Abandoned_Checker();
-							$coupon_code = $abandoned_checker->get_coupon_code($order_id, $prefix);
+							$coupon_code = $abandoned_checker->get_coupon_code($order_id, $prefix) ?? '';
+							// Check if the coupon empty
+							if (empty($coupon_code)) {
+								return do_action('woom_whatsapp_msg_sent_fail', array('result' => __('Coupon code is empty', 'wc-messaging')));
+							}
 							$coupon = new WC_Coupon($coupon_code);
 
 							// Check if the coupon exists
@@ -1806,35 +1862,20 @@ class Woom_Messaging_Admin
 						$template = get_option('woom_wa_templates', array())[get_option($prefix . '_template', '')];
 
 						$body_params = array();
+
 						if (!empty($template['body_params_count'])) {
-							$body_params = $this->woom_whatsapp_class->woom_get_mparams($type = "values", $method = "array", $order, $body_param_options, $coupon_data);
-							if (isset($template['body_params_opts'])) {
-								$param_list = array();
-								foreach ($template['body_params_opts'] as $param_index => $param) {
-									if (is_object($param)) {
-										$param_list[$param->param_name] = $body_params[$param_index];
-									} else {
-										$param_list[$param_index] = $body_params[$param_index];
-									}
-								}
-								$body_params = $param_list;
+							$body_params = $this->woom_whatsapp_class->woom_get_mparams(array('type' => "both", 'method' => "array", 'order' => $order, 'options' => $body_param_options, 'template_options' => $template['body_params_opts'], 'coupon_data' => $coupon_data));
+							if (isset($body_params['error'])) {
+								return $this->woom_report_error($body_params['error']);
 							}
 						}
 
 						$header_params = array();
 						if (!empty($template['header_params_count'])) {
-							$header_params = $this->woom_whatsapp_class->woom_get_mparams($type = "values", $method = "array", $order, $header_param_options, $coupon_data);
-							if (isset($template['header_params_opts'])) {
-								$param_list = array();
-								foreach ($template['header_params_opts'] as $param_index => $param) {
-									if (is_object($param)) {
-										$param_list[$param->param_name] = $header_params[$param_index];
-									} else {
-										$param_list[$param_index] = $header_params[$param_index];
-									}
-								}
-								$param_list = array('params' => $param_list, 'type' => strtolower($template['format'] ?? 'text'));
-								$header_params = $param_list;
+							$header_params['type'] = strtolower($template['format'] ?? 'text');
+							$header_params['params'] = $this->woom_whatsapp_class->woom_get_mparams(array('type' => "both", 'method' => "array", 'order' => $order, 'options' => $header_param_options, 'template_options' => $template['header_params_opts'], 'coupon_data' => $coupon_data));
+							if (isset($header_params['params']['error'])) {
+								return $this->woom_report_error($header_params['params']['error']);
 							}
 						} else if (!empty($template['has_header_attachment'])) {
 							$attachment = get_option($prefix . '_attachment_url', '');
@@ -1857,10 +1898,14 @@ class Woom_Messaging_Admin
 											return ''; // fallback if no items
 										}
 
-										// Get the first item
+										// Get the first product item
 										$items = $order->get_items();
-										$first_item = reset($items); // Get the first product item
-										$product = $first_item->get_product();
+										$first_item = reset($items);
+										$product = false;
+
+										if ($first_item instanceof WC_Order_Item_Product) {
+											$product = $first_item->get_product();
+										}
 
 										if (!$product) {
 											return ''; // fallback if product not found
@@ -1873,14 +1918,21 @@ class Woom_Messaging_Admin
 										return ''; // Or return original if not recognized: $matches[0]
 								}
 							}, $attachment);
+							if (empty($attachment)) {
+								return $this->woom_report_error(__("Attachment url is missing", 'wc-messaging'));
+							}
 							$param_list = array('params' => array($attachment), 'type' => strtolower($template['format']));
 							$header_params = $param_list;
 						}
+
 						$button_params = array();
 						if (!empty($template['button_params_count']) && array_key_exists('button_params_count', $template)) {
-							$button_params =  $this->woom_whatsapp_class->woom_get_mparams($type = "values", $method = "array", $order, $button_param_options, $coupon_data);
+							$button_params = $this->woom_whatsapp_class->woom_get_mparams(array('type' => "values", 'method' => "array", 'order' => $order, 'options' => $button_param_options, 'template_options' => null, 'coupon_data' => $coupon_data));
 							$param_list = array();
 							$param_index = 0;
+							if (isset($button_params['error'])) {
+								return $this->woom_report_error($button_params['error']);
+							}
 							foreach ($template['Buttons'] as $button_index => $button) {
 								if (isset($button->example)) {
 									$param_list[] = array('param' => $button_params[$param_index], 'type' => strtolower($button->type), 'index' => $button_index);
@@ -1895,7 +1947,9 @@ class Woom_Messaging_Admin
 						if (count($numbers) > 0) {
 							foreach ($numbers as $num) {
 								$num = $this->woom_whatsapp_class->nq_sanitise_phone_number($num);
-
+								if (!$num) {
+									return do_action('woom_abandoned_message_sent_fail', array('result' => __('Invalid phone number', 'wc-messaging')));
+								}
 								$response = $this->woom_whatsapp_class->send_message_template($num, $template['name'], $template['language'], $body_params, $header_params, $button_params);
 
 								if ($response['success']) {
@@ -1906,7 +1960,7 @@ class Woom_Messaging_Admin
 										'comment_agent' => $num,
 										'parameters' => array('body' => $body_params, 'header' => $header_params)
 									);
-									if (str_contains($prefix, 'woom_abandoned_cart_trigger')) {
+									if (strpos($prefix, 'woom_abandoned_cart_trigger') !== false) {
 										$order->update_meta_data($template_prefix . '_sent', 'true');
 										$order->save();
 										do_action('woom_abandoned_message_after_trigger', $response['wam_id'], $num, $template['name'], $template['language'], $body_params, $header_params, $order_id);
@@ -1923,7 +1977,7 @@ class Woom_Messaging_Admin
 										$order->add_order_note(sprintf('%1$s - %2$s | %3$s %4$s', __('Notiqoo', 'wc-messaging'), ucfirst($order->get_status()), __('Customer notification', 'wc-messaging'), $msg), $is_customer_note = 0, $added_by_user = false);
 									}
 								} else {
-									if (str_contains($prefix, 'woom_abandoned_cart_trigger')) {
+									if (strpos($prefix, 'woom_abandoned_cart_trigger') !== false) {
 										do_action('woom_abandoned_message_sent_fail', array('result' => $response['message']));
 									}
 									do_action('woom_whatsapp_msg_sent_fail', array('result' => $response['message']));
@@ -1941,6 +1995,145 @@ class Woom_Messaging_Admin
 		}
 	}
 
+	public function woom_trigger_msg_by_cart($number = '', $template_settings = array(), $cart_obj = array())
+	{
+		if ($this->woom_checkbox_valid($template_settings['enabled'])) {
+			$header_param_options = $template_settings['header_params'] ?? array();
+			$body_param_options = $template_settings['body_params'] ?? array();
+			$button_param_options = $template_settings['button_params'] ?? array();
+			if (empty($header_param_options)) {
+				$header_param_options = array();
+			} else {
+				$header_param_options = array($header_param_options);
+			}
+
+			if (empty($body_param_options)) {
+				$body_param_options = array();
+			}
+
+			if (empty($button_param_options)) {
+				$button_param_options = array();
+			}
+			$has_coupon = array_intersect(array_merge(array(), $header_param_options, $body_param_options, $button_param_options), ['coupon_code', 'coupon_offer_amount', 'coupon_offer_type']);
+
+			if (!empty($has_coupon)) {
+				$abandoned_checker = new Wcm_Abandoned_Checker();
+				$coupon_code = $abandoned_checker->get_coupon_code_by_cart($cart_obj, $template_settings);
+				$coupon = new WC_Coupon($coupon_code);
+				// Check if the coupon exists
+				if (!$coupon->get_id()) {
+					return do_action('woom_whatsapp_msg_sent_fail', array('result' => __('Failed to get coupon data', 'wc-messaging')));
+				}
+				$cart_obj['coupon_code'] = $coupon_code;
+			}
+			$template = get_option('woom_wa_templates', array())[$template_settings['template']];
+			$body_params = array();
+			if (!empty($template['body_params_count'])) {
+				$body_params = $this->woom_whatsapp_class->woom_get_mparams(array('type' => "both", 'method' => "array", 'cart_obj' => $cart_obj, 'options' => $body_param_options, 'template_options' => $template['body_params_opts']));
+				if (isset($body_params['error'])) {
+					return $this->woom_report_error($body_params['error']);
+				}
+			}
+			$header_params = array();
+			$attachment = get_option($template_settings['attachment_url'], '');
+			if (!empty($template['header_params_count'])) {
+				$header_params['type'] = strtolower($template['format'] ?? 'text');
+				$header_params['params'] = $this->woom_whatsapp_class->woom_get_mparams(array('type' => "both", 'method' => "array", 'cart_obj' => $cart_obj, 'options' => $header_param_options, 'template_options' => $template['header_params_opts']));
+				if (isset($header_params['params']['error'])) {
+					return $this->woom_report_error($header_params['params']['error']);
+				}
+			} else if (!empty($template['has_header_attachment'])) {
+				$attachment = $template_settings['attachment_url'] ?? '';
+				$attachment = preg_replace_callback(
+					'/\{\{\s*(.*?)\s*\}\}/',
+					function ($matches) use ($cart_obj) {
+
+						$tag = trim($matches[1]);
+
+						switch ($tag) {
+
+							case 'site-logo':
+
+								$image = wp_get_attachment_image_src(
+									get_theme_mod('custom_logo'),
+									'full'
+								);
+
+								return isset($image[0])
+									? esc_url($image[0])
+									: '';
+
+							case 'product-image':
+
+								if (empty($cart_obj['cart_items'][0]['product_id'])) {
+									return '';
+								}
+
+								$product_id = absint(
+									$cart_obj['cart_items'][0]['product_id']
+								);
+								$product = wc_get_product($product_id);
+								if (!$product) {
+									return '';
+								}
+								$image_id = $product->get_image_id();
+								if (!$image_id) {
+									return '';
+								}
+								$image_url = wp_get_attachment_url($image_id);
+								return esc_url($image_url);
+							default:
+								return '';
+						}
+					},
+					$attachment
+				);
+				if (empty($attachment)) {
+					return $this->woom_report_error(__("Attachment url is missing", 'wc-messaging'));
+				}
+				$param_list = array('params' => array($attachment), 'type' => strtolower($template['format']));
+				$header_params = $param_list;
+			}
+			$button_params = array();
+			if (!empty($template['button_params_count']) && array_key_exists('button_params_count', $template)) {
+				$button_params =  $this->woom_whatsapp_class->woom_get_mparams(array('type' => "values", 'method' => "array", 'cart_obj' => $cart_obj, 'options' => $button_param_options, 'template_options' => null));
+				$param_list = array();
+				$param_index = 0;
+				if (isset($button_params['error'])) {
+					return $this->woom_report_error($button_params['error']);
+				}
+				foreach ($template['Buttons'] as $button_index => $button) {
+					if (isset($button->example)) {
+						$param_list[] = array('param' => $button_params[$param_index], 'type' => strtolower($button->type), 'index' => $button_index);
+						$param_index++;
+					}
+				}
+				$button_params = $param_list;
+			}
+			if (!empty($number)) {
+				$number = $this->woom_whatsapp_class->nq_sanitise_phone_number($number);
+				if (!$number) {
+					return do_action('nq_abandoned_message_sent_fail', array('result' => __('Invalid phone number', 'wc-messaging')));
+				}
+				$response = $this->woom_whatsapp_class->send_message_template($number, $template['name'], $template['language'], $body_params, $header_params, $button_params);
+				if ($response['success']) {
+					$message_container = array(
+						'comment_content' => $template['name'],
+						'post_id' => 0,
+						'parent_id' => 0,
+						'comment_agent' => $number,
+						'parameters' => array('body' => $body_params, 'header' => $header_params)
+					);
+					do_action('woom_whatsapp_msg_sent_success', array('wam_id' => $response['wam_id'], 'comment' => $message_container));
+					do_action('nq_abandoned_after_trigger', $response['wam_id'], $number, $template['name'], $template['language'], $body_params, $header_params, $cart_obj);
+				} else {
+					do_action('nq_abandoned_message_sent_fail', array('result' => $response['message']));
+				}
+			} else {
+				$this->woom_report_error("Sentable numbers array is empty");
+			}
+		}
+	}
 
 	/**
 	 * Function for action buttons of meta boxes
@@ -2006,13 +2199,17 @@ class Woom_Messaging_Admin
 	function woom_send_manual_msg()
 	{
 		if (!isset($_POST['data']['woom_nonce'])) {
-			return;
+			return wp_send_json(array('success' => false, 'message' => __('Verification token is missing', 'wc-messaging')), 403);
+		}
+		// Capability check: only allow administrators (manage_options) to perform this action
+		if (! current_user_can('manage_options')) {
+			return wp_send_json(array('success' => false, 'message' => __('Insufficient permissions', 'wc-messaging')), 403);
 		}
 		if (!isset($_POST['data']['order_id'])) {
-			return;
+			return wp_send_json(array('success' => false, 'message' => __('Order id is missing', 'wc-messaging')), 403);
 		}
 		if (!isset($_POST['data']['slug_prefix'])) {
-			return;
+			return wp_send_json(array('success' => false, 'message' => __('template slug is missing', 'wc-messaging')), 403);
 		}
 		$result = array();
 		if ($_POST !== null) :
@@ -2026,10 +2223,16 @@ class Woom_Messaging_Admin
 				$order = wc_get_order($order_id);
 				$contact_numbers = array();
 				if ($is_user_wa_msg_billing_accepted && !empty($order->get_billing_phone())) {
-					$contact_numbers[] = $this->woom_whatsapp_class->nq_sanitise_phone_number($order->get_billing_phone());
+					$num = $this->woom_whatsapp_class->nq_sanitise_phone_number($order->get_billing_phone());
+					if ($num) {
+						$contact_numbers[] = $num;
+					}
 				}
 				if ($is_user_wa_msg_shipping_accepted && !empty($order->get_shipping_phone())) {
-					$contact_numbers[] = $this->woom_whatsapp_class->nq_sanitise_phone_number($order->get_shipping_phone());
+					$num = $this->woom_whatsapp_class->nq_sanitise_phone_number($order->get_shipping_phone());
+					if ($num) {
+						$contact_numbers[] = $num;
+					}
 				}
 				do_action('woom_trigger_wa_msg', $order_id, $slug_prefix, '', array_unique($contact_numbers));
 				return wp_send_json($result);
@@ -2111,8 +2314,14 @@ class Woom_Messaging_Admin
 					$contact_numbers = array();
 					if ($is_user_wa_msg_billing_accepted && $is_user_wa_msg_shipping_accepted) {
 						if (!empty($order->get_billing_phone()) && !empty($order->get_shipping_phone()) && ($order->get_billing_phone() !== $order->get_shipping_phone())) {
-							$contact_numbers[] = $order->get_billing_phone();
-							$contact_numbers[] = $order->get_shipping_phone();
+							$num = $this->woom_whatsapp_class->nq_sanitise_phone_number($order->get_billing_phone());
+							if ($num) {
+								$contact_numbers[] = $num;
+							}
+							$num = $this->woom_whatsapp_class->nq_sanitise_phone_number($order->get_shipping_phone());
+							if ($num) {
+								$contact_numbers[] = $num;
+							}
 						} else if (!empty($order->get_billing_phone())) {
 							$contact_numbers[] = $order->get_billing_phone();
 						} else if (!empty($order->get_shipping_phone())) {
@@ -2492,47 +2701,94 @@ class Woom_Messaging_Admin
 	}
 
 	/**
-	 * Add cron scheduler by duration
+	 * Schedule abandoned cart check
 	 *
-	 * @param [type] $schedules
-	 * @return iterable
+	 * This function checks if abandoned cart or order features are enabled in the settings.
+	 * If either feature is enabled, it schedules a recurring action to check for abandoned carts/orders every 5 minutes.
+	 * If neither feature is enabled, it unschedules any previously scheduled actions.
+	 *
+	 * @return void
 	 */
-	public function add_cron_schedule($schedules)
+	public function nq_schedule_abandoned_cart()
 	{
-		$schedules['every_five_minutes'] = array(
-			'interval'  => 300,
-			'display'   => __('Every 5 Minutes', 'wc-messaging')
-		);
-		return $schedules;
-	}
+		$cart_enabled  = 'yes' === get_option('woom_abandoned_enable', 'no');
+		$order_enabled = 'yes' === get_option('woom_abandoned_order_enable', 'no');
 
-	public function register_cron()
-	{
-		if (get_option('woom_abandoned_enable', 'no') === 'yes') {
-			// Schedule the cron event if not already scheduled
-			if (!wp_next_scheduled('woom_messaging_check_abandoned')) {
-				wp_schedule_event(time(), 'every_five_minutes', 'woom_messaging_check_abandoned');
-			}
-
-			// schedule auto delete expired abandoned coupons
-			if (get_option('woom_abandoned_auto_delete_coupon', 'no') === 'yes') {
-				$auto_delete_coupons_class = new WCM_Abandoned_Coupon_Delete();
-				$auto_delete_coupons_class->schedule_coupon_deletion();
-			}
+		// Nothing enabled.
+		if (!$cart_enabled && !$order_enabled) {
+			$this->nq_unschedule_abandoned_cart();
+			return;
 		}
+
+		// Already scheduled.
+		if (as_has_scheduled_action('nq_messaging_check_abandoned', array(), 'notiqoo-abandoned')) {
+			return;
+		}
+
+		// Run every 5 minutes.
+		as_schedule_recurring_action(
+			time(),
+			300,
+			'nq_messaging_check_abandoned',
+			array(),
+			'notiqoo-abandoned'
+		);
 	}
+
 	/**
 	 * check and trigger abandoned offer
 	 *
 	 * @return void
 	 */
-	public function check_abandoned()
+	public function nq_check_abandoned()
 	{
-		if (get_option('woom_abandoned_enable', 'no') === 'yes') {
-			// Instantiate and call method
+		// Built-in abandoned cart.
+		if (('yes' === get_option('woom_abandoned_enable', 'no')) && ('builtin' === get_option('woom_abandoned_method'))) {
+			$tracker = new Notiqoo_Abandoned_Cart_Tracker();
+
+			$tracker->nq_process_cart_abandonment();
+			$tracker->nq_cleanup_expired_carts();
+		}
+
+		// Abandoned orders after checkout.
+		if ('yes' === get_option('woom_abandoned_order_enable', 'no')) {
 			$abandoned_checker = new Wcm_Abandoned_Checker();
 			$abandoned_checker->trigger_abandoned_offer();
 		}
+
+		// Auto-delete expired coupons.
+		if ('yes' === get_option('woom_abandoned_auto_delete_coupon', 'no')) {
+			$auto_delete_coupons_class = new WCM_Abandoned_Coupon_Delete();
+			$auto_delete_coupons_class->schedule_coupon_deletion();
+		}
+	}
+
+	public function nq_remove_old_cron()
+	{
+		if (get_option('notiqoo_cron_migrated') === 'yes') {
+			return;
+		}
+
+		wp_clear_scheduled_hook('woom_messaging_check_abandoned');
+
+		update_option('notiqoo_cron_migrated', 'yes');
+	}
+
+	/**
+	 * Unschedules the abandoned cart check action.
+	 *
+	 * This function removes all scheduled actions for checking abandoned carts/orders.
+	 * It is typically called when the abandoned cart/order features are disabled in the settings.
+	 *
+	 * @return void
+	 */
+	public function nq_unschedule_abandoned_cart()
+	{
+		as_unschedule_all_actions(
+			'nq_messaging_check_abandoned',
+			array(),
+			'notiqoo-abandoned'
+		);
 	}
 
 	/**
@@ -2568,6 +2824,10 @@ class Woom_Messaging_Admin
 		if (!isset($_POST['woom_nonce'])) {
 			return;
 		}
+		// Capability check: only administrators may delete abandoned coupons
+		if (! current_user_can('manage_options')) {
+			return wp_send_json(array('success' => false, 'message' => __('Insufficient permissions', 'wc-messaging')), 403);
+		}
 		$result = array(
 			'success' => false,
 			'message' => __('Failed to remove coupons', 'wc-messaging')
@@ -2588,6 +2848,18 @@ class Woom_Messaging_Admin
 	 */
 	public function abandoned_trigger_sample()
 	{
+		// Optional nonce check if caller sends one
+		if (isset($_POST['data']['woom_nonce'])) {
+			if (! wp_verify_nonce(sanitize_key(wp_unslash($_POST['data']['woom_nonce'])), 'woom-ajax-post')) {
+				return wp_send_json_error(['message' => __('Failed to verify nonce', 'wc-messaging')], 403);
+			}
+		}
+
+		// Require logged-in user with appropriate capability to prevent anonymous abuse
+		if (! is_user_logged_in() || ! current_user_can('manage_options')) {
+			return wp_send_json_error(['message' => __('Insufficient permissions', 'wc-messaging')], 403);
+		}
+
 		if (class_exists('Wcm_Send_Abandoned_Status')) {
 			$new_ob = new Wcm_Send_Abandoned_Status();
 			// Call the method to send data
@@ -2778,6 +3050,10 @@ Your feedback motivates us to build better features and keep Notiqoo free for th
 	{
 		$result = array('success' => false, 'message' => esc_html__('Something went wrong', 'wc-messaging'));
 		if (!empty(sanitize_text_field(wp_unslash($_POST['data']['woom_nonce']))) && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['data']['woom_nonce'])), 'woom-ajax-post')) {
+			// Capability check: only allow administrators to dismiss/reply to review notices
+			if (! current_user_can('manage_options')) {
+				wp_send_json_error(array('success' => false, 'message' => __('Insufficient permissions', 'wc-messaging')));
+			}
 			$action_type = isset($_POST['data']['type'])
 				? sanitize_text_field(wp_unslash($_POST['data']['type']))
 				: ''; // week_twice | permanent
@@ -3044,5 +3320,103 @@ Your feedback motivates us to build better features and keep Notiqoo free for th
 			}
 		}
 	}
-}
+
+	function nq_get_abandoned_triggers_data($args = array('prefix' => 'woom_abandoned_cart_triggers', 'fields' => array()))
+	{
+		$prefix = (!isset($args['prefix']) || empty($args['prefix'])) ? 'woom_abandoned_cart_triggers' : $args['prefix'];
+		$fields = (!isset($args['fields'])) ? array() : $args['fields'];
+
+		// get all prefixes for table of settings 
+		$actions = $this->nq_get_abandoned_trigger_actions($prefix);
+		if (empty($actions) || !is_array($actions)) {
+			return $actions;
+		}
+
+		if (empty($fields)) {
+			$fields = array(
+				'label',
+				'enabled',
+				'template',
+				'duration',
+				'duration_unit',
+				'header_params',
+				'body_params',
+				'button_params',
+				'coupon_enabled',
+				'coupon_discount_type',
+				'coupon_amount',
+				'coupon_expiry_duration',
+				'coupon_expiry_duration_unit',
+				'coupon_individual',
+				'coupon_auto_apply',
+				'attachment_url'
+			);
+		}
+		$result = array();
+		foreach ($actions as $action) {
+			$result_array = array();
+			foreach ($fields as $field) {
+				if (get_option($action . '_enabled', '') === 'yes') {
+					$result_array[$field] = get_option(implode('_', array($action, $field)), '');
+				}
+			}
+			if (!empty($result_array)) {
+				if ($result_array['coupon_enabled'] !== 'yes') {
+					$result_array['coupon_code'] = get_option(implode('_', array($action, 'coupon_code')), '');
+				}
+			}
+			$result[$action] = $result_array;
+		}
+		return $result;
+	}
+
+	function nq_get_abandoned_trigger_actions($prefix = 'woom_abandoned_cart_triggers')
+	{
+		$result = array();
+		if (empty($prefix)) {
+			return $result;
+		}
+		$actions = get_option($prefix, array());
+		if (!empty($actions)) {
+			foreach ($actions as $action) {
+				$result[] = substr($prefix, 0, -1) . "_" . $action;
+			}
+		} else {
+			$result[] = substr($prefix, 0, -1) . "_action_1";
+		}
+		return $result;
+	}
+
+	function nq_abandoned_notification_init($cart = array())
+	{
+		if (empty($cart['cart_id']) || empty($cart['customer_phone'])) {
+			return;
+		}
+		$cart_id = $cart['cart_id'];
+		$abandoned_triggers = $this->nq_get_abandoned_triggers_data();
+		foreach ($abandoned_triggers as $option) :
+			if (!empty($option['template']) && $option['enabled']) {
+				$schedule_args = array('content' => array('cart' => $cart, 'trigger_settings' => $option));
+				as_schedule_single_action(
+					strtotime('+' . $option['duration'] . ' ' . $option['duration_unit']), // Run after 5 minutes
+					'nq_process_abandoned_scheduled',
+					$schedule_args,
+					'notiqoo_abandoned_' . $cart_id
+				);
+			}
+
+		endforeach;
+	}
+
+	function nq_trigger_abandoned_scheduled($args = array())
+	{
+		$cart_obj = $args['cart'] ?? array();
+		$cart_id = $cart_obj['cart_id'];
+		if (get_transient('nq_recovered_' . $cart_id)) {
+			return;
+		}
+		$template_settings = $args['trigger_settings'] ?? array();
+		return $this->woom_trigger_msg_by_cart($cart_obj['customer_phone'], $template_settings, $cart_obj);
+	}
+}  // end class
 ?>

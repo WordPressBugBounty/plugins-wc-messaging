@@ -10,7 +10,7 @@ $new_settings = array(
         'id'    => 'woom_abandoned_cart_tab',
         'type' => 'title',
         'name' => __('Abandoned Cart', 'wc-messaging'),
-        'desc'    => __('Notiqoo Abandoned Cart Settings', 'wc-messaging'). sprintf('<a href="%s" target="_blank">%s</a>', esc_url('https://notiqoo.com/docs/notiqoo-pro/setting-page/abandoned-cart-settings/?utm_source=plugin&utm_medium=free-settings&utm_campaign=free-settings'), __("\t\tRead documentation.", 'wc-messaging')),
+        'desc'    => __('Notiqoo Abandoned Cart Settings', 'wc-messaging') . sprintf('<a href="%s" target="_blank">%s</a>', esc_url('https://notiqoo.com/docs/notiqoo-pro/setting-page/abandoned-cart-settings/?utm_source=plugin&utm_medium=free-settings&utm_campaign=free-settings'), __("\t\tRead documentation.", 'wc-messaging')),
     ),
     array(
         'id'    => 'woom_abandoned_enable',
@@ -21,6 +21,23 @@ $new_settings = array(
         'note'    => __('Cart will be considered abandoned if order is not completed in cart abandoned cut-off time.', 'wc-messaging')
     ),
     array(
+        'id'    => 'woom_abandoned_order_enable',
+        'type' => "woom_with_note",
+        'field_type' => "checkbox",
+        'name' => __('Enable pending order tracking', 'wc-messaging'),
+        'desc'    => __('Start capturing pending order as abandoned carts.', 'wc-messaging'),
+        'note'    => __('Tracks WooCommerce orders remaining in pending payment status.', 'wc-messaging')
+    ),
+    array(
+        'id'    => 'woom_abandoned_method',
+        'name'  => __('Abandonment tracking method', 'wc-messaging'),
+        'type'  => 'select',
+        'default'  => 'builtin',
+        'options' => array(
+            'builtin' => __('Default (Built-in)', 'wc-messaging'),
+        ),
+    ),
+    array(
         'id' => 'woom_abandoned_cutoff_time',
         'type' => "woom_with_note",
         'field_type' => "number",
@@ -28,7 +45,14 @@ $new_settings = array(
         'desc'    => __('Minutes.', 'wc-messaging'),
         'note' => __('Treat the cart as abandoned if the order remains in a pending status and is not completed within the specified number of minutes', 'wc-messaging')
     ),
-
+    array(
+        'id' => 'woom_abandoned_expiry_time',
+        'type' => "woom_with_note",
+        'field_type' => "number",
+        'name' => __('Recovery window period', 'wc-messaging'),
+        'desc'    => __('Days.', 'wc-messaging'),
+        'note' => __('Treat the cart as expired if the order remains in a pending checkout and is not completed within the specified number of days', 'wc-messaging')
+    ),
     array(
         'id'    => 'woom_abandoned_cart_tab_general_settings_end',
         'type'    => 'sectionend',
@@ -105,6 +129,7 @@ $new_settings = array(
         'id'    => 'woom_abandoned_cart_templates',
         'type' => 'title',
         'name' => __('Abandoned messages', 'wc-messaging'),
+        'desc' => sprintf('<a href="https://business.facebook.com/latest/whatsapp_manager/" target="_blank">Go to Facebook Whatsapp Manager</a>')
     ),
     array(
         'id' => 'woom_abandoned_cart_triggers',
@@ -135,8 +160,8 @@ $new_settings = array(
                 'name' => __('Fixed coupon code', 'wc-messaging'),
                 'desc' => __('Allows you to send new coupon only for this template.', 'wc-messaging'),
                 'desc_tip' => false,
-				'data-toggler' => true,
-				'data-labels' => array('fixed' => __('Fixed coupon code', 'wc-messaging'), 'dynamic' => __('Dynamic coupon code', 'wc-messaging')),
+                'data-toggler' => true,
+                'data-labels' => array('fixed' => __('Fixed coupon code', 'wc-messaging'), 'dynamic' => __('Dynamic coupon code', 'wc-messaging')),
                 'custom_attributes' => array(
                     'onchange' => 'woom_toggle_coupon_type(event)',
                 )

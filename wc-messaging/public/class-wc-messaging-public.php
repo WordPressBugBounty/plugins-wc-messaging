@@ -91,6 +91,26 @@ class Woom_Messaging_Public
 		 */
 
 		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/wc-messaging-public.js', array('jquery'), $this->version, false);
+
+		if (is_checkout() && 'yes' === get_option('woom_abandoned_enable')) {
+
+			wp_enqueue_script(
+				'nq-abandoned-cart',
+				plugin_dir_url(__FILE__) . 'js/abandoned-cart.js',
+				array('jquery'),
+				$this->version,
+				true
+			);
+
+			wp_localize_script(
+				'nq-abandoned-cart',
+				'nq_guest_capture',
+				array(
+					'ajax_url' => admin_url('admin-ajax.php'),
+					'nonce'    => wp_create_nonce('nq_guest_checkout'),
+				)
+			);
+		}
 	}
 
 
@@ -147,13 +167,13 @@ class Woom_Messaging_Public
 			$calling_code = WC()->countries->get_country_calling_code($fields['billing_country']);
 			$billing_number = $fields['billing_phone'];
 			$is_invalid = $calling_code === str_replace(" ", "", $billing_number);
-			$is_invalid = $is_invalid || !str_starts_with($billing_number, $calling_code);
+			$is_invalid = $is_invalid || strpos($billing_number, $calling_code) !== 0;
 			$is_invalid = $is_invalid || strlen($calling_code) >= strlen($billing_number);
 
 			if ($is_invalid) {
 				$errors->add('billing_phone_field_empty', __('Please enter valid phone number', 'wc-messaging'));
 			}
-			if (str_contains($billing_number, ' ')) {
+			if (strpos($billing_number, ' ') !== false) {
 				$errors->add('billing_phone_field_whitespaces', __('Whitespaces not allowed in phone number', 'wc-messaging'));
 			}
 		}

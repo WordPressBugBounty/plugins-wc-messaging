@@ -3,6 +3,9 @@
 if (!defined('ABSPATH')) {
     exit;
 }
+if (empty($links) || !is_array($links)) {
+    exit;
+}
 global $current_section;
 $headings = array(
     'title' => __('Order status', 'wc-messaging'),
@@ -66,7 +69,7 @@ if (isset($links['custom_templates_only'])) {
                     switch ($field['type']) {
                         case 'label':
                 ?>
-                            <td <?php echo esc_html($custom_attributes); ?> class="wc-email-settings-table-name-with-tooltip <?php echo (str_contains($custom_attributes, 'rowspan')) ? 'allign-baseline' : ''; ?>">
+                            <td <?php echo esc_html($custom_attributes); ?> class="wc-email-settings-table-name-with-tooltip <?php echo (strpos($custom_attributes, 'rowspan') !== false) ? 'allign-baseline' : ''; ?>">
                                 <?php
                                 printf('<span>%s</span>', wp_kses_post($field['name']));
                                 if (isset($field['desc']) && !empty($field['desc'])) {
@@ -208,7 +211,7 @@ if (isset($links['custom_templates_only'])) {
                                                         $attr .= 'data-' . $key . '="' . $value . '"';
                                                     }
                                                 }
-                                                if (!str_contains($field_opt['id'], '_1_')) {
+                                                if (strpos($field_opt['id'], '_1_') === false) {
                                                     echo '<button ' . esc_attr($attr) . ' id="' . esc_html($field_opt['id']) . '" class="button remove-opt button-small btn button-secondary" onClick="woom_remove_field_trigger(event, this)">' . esc_html($field_opt['name']) . '</button>';
                                                 }
                                             }

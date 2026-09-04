@@ -8,13 +8,14 @@ if (!class_exists('WCWhatsapp')) {
 
         private $base_url;
         private $access_token;
-
+        private $phone_number_id;
         // initialise all variables
         function __construct()
         {
 
             $this->base_url    = $this->get_wa_baseurl();
             $this->access_token = $this->get_wa_token();
+            $this->phone_number_id = $this->get_wa_phone_number_id();
         }
 
 
@@ -23,12 +24,23 @@ if (!class_exists('WCWhatsapp')) {
             if (!defined('DEFAULT_WA_ACCESS_TOKEN')) {
                 $token = get_option('woom_whatsapp_api', '');
             } else {
-
                 $token = DEFAULT_WA_ACCESS_TOKEN;
             }
-
             return $token;
         }
+
+        private function get_wa_phone_number_id()
+        {
+            if (!defined('DEFAULT_WA_PHONENUMBER_ID')) {
+                $phone_number_id = get_option('woom_whatsapp_number_id', '');
+            } else {
+
+                $phone_number_id = DEFAULT_WA_PHONENUMBER_ID;
+            }
+
+            return $phone_number_id;
+        }
+
         private function get_wa_baseurl($slug = 'messages', $version = "v17.0", $has_number_id = true)
         {
             $woom_whatsapp_number_id = get_option('woom_whatsapp_number_id', '');
@@ -74,7 +86,7 @@ if (!class_exists('WCWhatsapp')) {
         {
             $number_id = get_option('woom_wb_account_ID', '');
             $api_version = 'v18.0';
-            $limit = apply_filters('notiqoo_wa_template_default_count', 50);
+            $limit = apply_filters('notiqoo_wa_template_default_count', 100);
             $url = array('https://graph.facebook.com', $api_version, $number_id, 'message_templates?limit=' . $limit);
             $url = esc_url(implode('/', $url));
             $headers = array(
@@ -83,11 +95,6 @@ if (!class_exists('WCWhatsapp')) {
                 )
             );
 
-            foreach (array($api_version, $number_id, $this->access_token) as $param_val) {
-                if (empty($param_val)) {
-                    return array("data" => [], "success" => false, "message" => sprintf('%1$s <a target="_blank" href="%2$s">%3$s</a> %4$s', __('Looks like Notiqoo isn’t configured yet.', 'wc-messaging'), esc_url(admin_url() . 'admin.php?page=wc-settings&tab=woom_settings'), __('Click here', 'wc-messaging'), __('to add your settings and get started.', 'wc-messaging')));
-                }
-            }
             $request = wp_remote_get($url, $headers);
             if (is_wp_error($request) || wp_remote_retrieve_response_code($request) != 200) {
                 $error_data = json_decode(wp_remote_retrieve_body($request));
@@ -98,8 +105,7 @@ if (!class_exists('WCWhatsapp')) {
                 return array("data" => $error_data, "success" => false, "message" => $err_message);
             } else {
                 $response = wp_remote_retrieve_body($request);
-                $templates = json_decode($response);
-                return array("data" => json_decode($response), "success" => true, "message" => __('Templates fetched successfully', 'wc-messaging'));
+                return array("data" => json_decode($response), "success" => true, "message" => '');
             }
         }
 
@@ -111,8 +117,11 @@ if (!class_exists('WCWhatsapp')) {
             $woom_template = array();
             foreach ($woom_template_message as $id => $template) {
                 // $allowed_formats = array('TEXT');
-                // if (in_array($template['format'], $allowed_formats)) {
-                if (!empty($template_type) && isset($template['type']) && $template['type'] === $template_type) {
+                // if (isset($template['format']) && in_array($template['format'], $allowed_formats)) {
+                if (!empty($template_type) && isset($template['type']) && ($template['type'] !== 'flow' && $template_type !== 'flow')) {
+                    $woom_template[$id] = $template;
+                }
+                if (!empty($template_type) && isset($template['type']) && ($template['type'] === 'flow' && $template_type === 'flow')) {
                     $woom_template[$id] = $template;
                 } else if (is_null($template_type)) {
                     $woom_template[$id] = $template;
@@ -133,7 +142,7 @@ if (!class_exists('WCWhatsapp')) {
          * @return string
          * @since 1.0.0
          */
-        public function woom_get_whatsapp_template_by_name($template_name = '', $args = array())
+        public function woom_get_whatsapp_template_by_name($template_name = '', $args = array(), $type = "html")
         {
             $templates = $this->get_message_template();
             $template = array();
@@ -141,23 +150,36 @@ if (!class_exists('WCWhatsapp')) {
             foreach ($templates as $template_value) {
                 if ($template_value['name'] === $template_name) {
                     if (array_key_exists('header_params_count', $template_value) && $template_value['header_params_count'] > 0) {
-                        $header_parameters = array();
-
-                        for ($i = 0; $i < $template_value['header_params_count']; $i++) {
-                            $header_parameters['{{' . ($i + 1) . '}}'] = array_values($args['header']['params'])[$i];
-                        }
-                        foreach ($header_parameters as $param_key => $param_val) {
-                            $template_value['Header'] = str_replace($param_key, $param_val, $template_value['Header']);
+                        if (!empty($template_value['body_params_named'])) {
+                            foreach ($args['header']['params'] as $param_header_key => $param_header_val) {
+                                $template_value['Header'] = str_replace('{{' . $param_header_key . '}}', $param_header_val, $template_value['Header']);
+                            }
+                        } else {
+                            $header_parameters = array();
+                            for ($i = 0; $i < $template_value['header_params_count']; $i++) {
+                                $header_parameters['{{' . ($i + 1) . '}}'] = array_values($args['header'])[$i];
+                            }
+                            foreach ($header_parameters as $param_key => $param_val) {
+                                $template_value['Header'] = str_replace($param_key, $param_val, $template_value['Header']);
+                            }
                         }
                     }
                     if (array_key_exists('body_params_count', $template_value) && $template_value['body_params_count'] > 0) {
-                        $body_parameters = array();
+                        if (!empty($template_value['body_params_named'])) {
 
-                        for ($i = 0; $i < $template_value['body_params_count']; $i++) {
-                            $body_parameters['{{' . ($i + 1) . '}}'] = array_values($args['body'])[$i];
-                        }
-                        foreach ($body_parameters as $param_key => $param_val) {
-                            $template_value['Body'] = str_replace($param_key, $param_val, $template_value['Body']);
+                            foreach ($args['body'] as $param_body_key => $param_body_val) {
+                                $template_value['Body'] = str_replace('{{' . $param_body_key . '}}', $param_body_val, $template_value['Body']);
+                            }
+                        } else {
+                            $body_parameters = array();
+                            for ($i = 0; $i < $template_value['body_params_count']; $i++) {
+                                if (count($args['body']) > 0) {
+                                    $body_parameters['{{' . ($i + 1) . '}}'] = array_values($args['body'])[$i];
+                                }
+                            }
+                            foreach ($body_parameters as $param_key => $param_val) {
+                                $template_value['Body'] = str_replace($param_key, $param_val, $template_value['Body']);
+                            }
                         }
                     }
                     if (array_key_exists('footer_params_count', $template_value) && $template_value['footer_params_count'] > 0) {
@@ -175,13 +197,29 @@ if (!class_exists('WCWhatsapp')) {
             }
             if (count($template) > 0) {
                 if (array_key_exists('Header', $template)) {
-                    $templateHTML .= sprintf('<h3 class="woom-template-header">%s</h3>', $template['Header']);
+                    if ($type !== 'html') {
+                        $templateHTML .= sprintf('*%s*
+
+', $template['Header']);
+                    } else {
+                        $templateHTML .= sprintf('<h3 class="woom-template-header">%s</h3>', $template['Header']);
+                    }
                 }
                 if (array_key_exists('Body', $template)) {
-                    $templateHTML .= sprintf('<div class="woom-template-body">%s</div>', $template['Body']);
+                    if ($type !== 'html') {
+                        $templateHTML .= sprintf('%s', $template['Body']);
+                    } else {
+                        $templateHTML .= sprintf('<p class="woom-template-body">%s</p>', $template['Body']);
+                    }
                 }
                 if (array_key_exists('Footer', $template)) {
-                    $templateHTML .= sprintf('<small class="woom-template-footer">%s</small>', $template['Footer']);
+                    if ($type !== 'html') {
+                        $templateHTML .= sprintf('
+
+_%s_', $template['Footer']);
+                    } else {
+                        $templateHTML .= sprintf('<small class="woom-template-footer">%s</small>', $template['Footer']);
+                    }
                 }
             }
             return $templateHTML;
@@ -300,7 +338,6 @@ if (!class_exists('WCWhatsapp')) {
                     "code" => $language
                 )
             );
-
             if (!empty($buttons)) {
                 $param_list = array();
                 foreach ($buttons as $button) {
@@ -331,7 +368,7 @@ if (!class_exists('WCWhatsapp')) {
             if (!empty($header_params)) {
                 $template_data["components"][] = array(
                     "type" => "header",
-                    "parameters" => $this->get_template_parameters($header_params['params'] ?? array(), $header_params['type'] ?? 'text')
+                    "parameters" => $this->get_template_parameters($header_params['params'] ?? array(), strtolower($header_params['type']) ?? 'text')
                 );
             }
 
@@ -343,6 +380,7 @@ if (!class_exists('WCWhatsapp')) {
                 "type" => "template",
                 "template" => $template_data
             );
+
             $response = wp_remote_post($this->base_url, array(
                 'body'    => wp_json_encode($data),
                 'headers' => array(
@@ -350,7 +388,6 @@ if (!class_exists('WCWhatsapp')) {
                     'content-type' => 'application/json',
                 ),
             ));
-
             if (is_wp_error($response)) {
                 $error_message = $response->get_error_message();
                 return array(
@@ -414,8 +451,15 @@ if (!class_exists('WCWhatsapp')) {
          * @param string $method
          * @since 1.0.0
          */
-        function woom_get_mparams($type = "keys", $method = "string", $order = null, $options = '', $coupon_data = array())
+        function woom_get_mparams($args = array('order' => null))
         {
+            $type = $args['type'];
+            $method = $args['method'];
+            $order = $args['order'] ?? null;
+            $cart_obj = $args['cart_obj'] ?? null;
+            $options = $args['options'] ?? array();
+            $template_opts = $args['template_options'] ?? '';
+            $coupon_data = $args['coupon_data'] ?? array();
             $param_keys = array();
             $param_values = array();
             $additional_params = apply_filters("woom_additional_template_params", array(), $order, $options);
@@ -424,89 +468,116 @@ if (!class_exists('WCWhatsapp')) {
                 "site_address" => get_bloginfo('wpurl'),
                 "site_url" => get_bloginfo('url'),
             );
-            if ($order === null) {
-
-
-                $order_data =
-                    array(
-                        'order_id' => '',
-                        'order_status' => '',
-                        'order_prices_include_tax' => '',
-                        'order_discount_total' => '',
-                        'order_discount_tax' => '',
-                        'order_shipping_total' => '',
-                        'order_shipping_tax' => '',
-                        'order_cart_tax' => '',
-                        'order_total' => '',
-                        'order_total_tax' => '',
-                        'order_customer_id' => '',
-                        'order_order_key' => '',
-                        'order_billing_full_name' => '',
-                        'order_shipping_full_name' => '',
-                        'order_billing_first_name' => '',
-                        'order_billing_last_name' => '',
-                        'order_billing_company' => '',
-                        'order_billing_address_1' => '',
-                        'order_billing_address_2' => '',
-                        'order_billing_city' => '',
-                        'order_billing_state' => '',
-                        'order_billing_postcode' => '',
-                        'order_billing_country' => '',
-                        'order_billing_email' => '',
-                        'order_billing_phone' => '',
-                        'order_shipping_first_name' => '',
-                        'order_shipping_last_name' => '',
-                        'order_shipping_company' => '',
-                        'order_shipping_address_1' => '',
-                        'order_shipping_address_2' => '',
-                        'order_shipping_city' => '',
-                        'order_shipping_state' => '',
-                        'order_shipping_postcode' => '',
-                        'order_shipping_country' => '',
-                        'order_shipping_phone' => '',
-                        'order_payment_method' => '',
-                        'order_payment_method_title' => '',
-                        'order_transaction_id' => '',
-                        'order_created_via' => '',
-                        'order_number' => '',
-                        'order_date_created' => '',
-                        'order_date_modified' => '',
-                        'order_date_completed' => '',
-                        'order_date_paid' => '',
-                        'Payment_url' => '',
-                        'coupon_code' => ''
-                    );
-            } else {
-                $order_data = array();
-                $order_data_prefix = "order_";
-
-                foreach ($order->get_data() as $order_key => $order_val) {
-                    if (in_array(gettype($order_val), ['object', 'array'])) {
-                        $order_data = $this->get_params_from_object($order_val, $order_data_prefix . $order_key . "_", $order_data);
-                    } else {
-                        $order_data[$order_data_prefix . $order_key] = $order_val;
-                    }
+            $abandoned_data = array();
+            if (array_key_exists('cart_obj', $args)) {
+                $abandoned_data = apply_filters("woom_abandoned_additional_template_params", array(), $cart_obj, $options);
+                if ($cart_obj === null) {
+                    $abandoned_data['customer_name'] = '';
+                    $abandoned_data['customer_phone'] = '';
+                    $abandoned_data['customer_email'] = '';
+                    $abandoned_data['checkout_url'] = '';
+                    // $abandoned_data['payment_url'] = '';
+                    $abandoned_data['cart_url'] = '';
+                    $abandoned_data['coupon_code'] = '';
+                } else {
+                    $abandoned_data['customer_name'] = $cart_obj['customer_name'];
+                    $abandoned_data['customer_phone'] = $cart_obj['customer_phone'];
+                    $abandoned_data['customer_email'] = $cart_obj['customer_email'];
+                    $abandoned_data['checkout_url'] = $cart_obj['checkout_url'];
+                    // $abandoned_data['payment_url'] = $cart_obj['payment_url'];
+                    $abandoned_data['cart_url'] = $cart_obj['cart_url'];
+                    $abandoned_data['coupon_code'] = $cart_obj['coupon_code'] ?? '';
                 }
-                $order_data['order_billing_full_name'] = $order->get_formatted_billing_full_name();
-                $order_data['order_shipping_full_name'] = $order->get_formatted_shipping_full_name();
-
-                if (!empty($order->get_date_created())) {
-                    $order_data['order_date_created'] = $order->get_date_created()->date("F j, Y");
-                }
-                if (!empty($order->get_date_modified())) {
-                    $order_data['order_date_modified'] = $order->get_date_modified()->date("F j, Y");
-                }
-                if (!empty($order->get_date_completed())) {
-                    $order_data['order_date_completed'] = $order->get_date_completed()->date("F j, Y");
-                }
-                if (!empty($order->get_date_paid())) {
-                    $order_data['order_date_paid'] = $order->get_date_paid()->date("F j, Y");
-                }
-                $order_data['Payment_url'] = esc_url($order->get_checkout_payment_url());
+                $params_list = array_merge($params_list, $abandoned_data);
             }
+            if (array_key_exists('order', $args)) {
+                if ($order === null) {
+                    $order_data =
+                        array(
+                            'order_id' => '',
+                            'order_status' => '',
+                            'order_prices_include_tax' => '',
+                            'order_discount_total' => '',
+                            'order_discount_tax' => '',
+                            'order_shipping_total' => '',
+                            'order_shipping_tax' => '',
+                            'order_cart_tax' => '',
+                            'order_total' => '',
+                            'order_total_tax' => '',
+                            'order_customer_id' => '',
+                            'order_order_key' => '',
+                            'order_billing_full_name' => '',
+                            'order_shipping_full_name' => '',
+                            'order_billing_first_name' => '',
+                            'order_billing_last_name' => '',
+                            'order_billing_company' => '',
+                            'order_billing_address_1' => '',
+                            'order_billing_address_2' => '',
+                            'order_billing_city' => '',
+                            'order_billing_state' => '',
+                            'order_billing_postcode' => '',
+                            'order_billing_country' => '',
+                            'order_billing_email' => '',
+                            'order_billing_phone' => '',
+                            'order_shipping_first_name' => '',
+                            'order_shipping_last_name' => '',
+                            'order_shipping_company' => '',
+                            'order_shipping_address_1' => '',
+                            'order_shipping_address_2' => '',
+                            'order_shipping_city' => '',
+                            'order_shipping_state' => '',
+                            'order_shipping_postcode' => '',
+                            'order_shipping_country' => '',
+                            'order_shipping_phone' => '',
+                            'order_payment_method' => '',
+                            'order_payment_method_title' => '',
+                            'order_transaction_id' => '',
+                            'order_created_via' => '',
+                            'order_number' => '',
+                            'order_date_created' => '',
+                            'order_date_modified' => '',
+                            'order_date_completed' => '',
+                            'order_date_paid' => '',
+                            'Payment_url' => '',
+                            'coupon_code' => ''
+                        );
+                } else {
+                    $order_data = array();
+                    $order_data_prefix = "order_";
 
-            // merge and handle all parameters such as custom and order specific parameters into params_list
-            $params_list = array_merge($params_list, $order_data, $additional_params, $coupon_data);
+                    foreach ($order->get_data() as $order_key => $order_val) {
+                        if (in_array(gettype($order_val), ['object', 'array'])) {
+                            $order_data = $this->get_params_from_object($order_val, $order_data_prefix . $order_key . "_", $order_data);
+                        } else {
+                            $order_data[$order_data_prefix . $order_key] = $order_val;
+                        }
+                    }
+                    $order_data['order_billing_full_name'] = $order->get_formatted_billing_full_name();
+                    $order_data['order_shipping_full_name'] = $order->get_formatted_shipping_full_name();
+
+                    if (!empty($order->get_date_created())) {
+                        $order_data['order_date_created'] = $order->get_date_created()->date("F j, Y");
+                    }
+                    if (!empty($order->get_date_modified())) {
+                        $order_data['order_date_modified'] = $order->get_date_modified()->date("F j, Y");
+                    }
+                    if (!empty($order->get_date_completed())) {
+                        $order_data['order_date_completed'] = $order->get_date_completed()->date("F j, Y");
+                    }
+                    if (!empty($order->get_date_paid())) {
+                        $order_data['order_date_paid'] = $order->get_date_paid()->date("F j, Y");
+                    }
+                    $order_data['Payment_url'] = $order->get_checkout_payment_url();
+                    // abandoned support
+                    $order_data['customer_name'] = $order_data['order_billing_full_name'];
+                    $order_data['customer_phone'] = $order_data['order_billing_phone'];
+                    $order_data['customer_email'] = $order_data['order_billing_email'];
+                    $order_data['checkout_url'] = '';
+                    $order_data['payment_url'] = $order_data['Payment_url'];
+                    $order_data['cart_url'] = '';
+                }
+                $params_list = array_merge($params_list, $order_data, $additional_params, $coupon_data);
+            }
             if (!is_array($options) && $options !== '') {
                 $avail_param_list = array();
                 foreach (explode(',', $options) as $param) {
@@ -515,9 +586,15 @@ if (!class_exists('WCWhatsapp')) {
                 }
                 $params_list = $avail_param_list;
             } else if (is_array($options) && count($options) > 0) {
+                if (empty($avail_param_list)) {
+                    $avail_param_list = array();
+                }
+
                 foreach ($options as $param) {
                     $param = str_replace(' ', '', $param);
-                    $avail_param_list[$param] = $params_list[$param];
+                    if (isset($params_list[$param])) {
+                        $avail_param_list[$param] = $params_list[$param];
+                    }
                 }
                 $params_list = $avail_param_list;
             }
@@ -538,7 +615,31 @@ if (!class_exists('WCWhatsapp')) {
                     break;
 
                 default:
-
+                    if (!empty($template_opts)) {
+                        $arr = array();
+                        $template_opt_keys = array_keys($template_opts);
+                        $params_values = array_values($params_list);
+                        $missing_params = array_map(
+                            function ($key) use ($params_list) {
+                                return array_keys($params_list)[$key] . " is missing";
+                            },
+                            array_keys(
+                                array_filter(
+                                    $params_values,
+                                    function ($value) {
+                                        return empty($value);
+                                    }
+                                )
+                            )
+                        );
+                        if (!empty($missing_params)) {
+                            return array('error' => implode(", ", $missing_params));
+                        }
+                        for ($opt_count = 0; $opt_count < count($template_opts); $opt_count++) {
+                            $arr[$template_opt_keys[$opt_count]] = $params_values[$opt_count];
+                        }
+                        return $arr;
+                    }
                     if ($method === 'string') {
                         $param = "";
                         foreach ($params_list as $p_key => $p_value) {

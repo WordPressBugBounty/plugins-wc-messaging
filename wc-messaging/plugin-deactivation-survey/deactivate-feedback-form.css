@@ -11,14 +11,21 @@
     width: auto !important;
 }
 
+.sgits-deactivate-dialog textarea {
+    font-size: 12px;
+}
+
 .sgits-deactivate-dialog h2 {
     color: gray;
     font-variant: small-caps;
     font-size: 1.2em;
     padding-bottom: 0.2em;
     border-bottom: 1px solid lightgray;
+    margin: 0px;
 }
-
+.sgits-deactivate-dialog p {
+    margin: 8px 0px;
+}
 .sgits-deactivate-dialog input[type="text"] {
     width: 380px;
 }
@@ -26,6 +33,108 @@
 .sgits-deactivate-dialog textarea {
     width: 100%;
 }
+
 .sgits-deactivate-dialog-logo {
     text-align: right;
+}
+
+ul.sgits-deactivate-reasons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    width: 100%;
+    margin-bottom: 6px;
+}
+
+ul.sgits-deactivate-reasons>li {
+    margin: 0px;
+}
+
+ul.sgits-deactivate-reasons>li label {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    font-size: 12px;
+    border: 1px solid #e1e5ea;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+ul.sgits-deactivate-reasons>li input[type="radio"] {
+    box-shadow: none;
+    width: 12px;
+    height: 12px;
+    margin: 0px 4px 0px 0px;
+    min-width: unset;
+}
+
+.sgits-deactivate-reasons+label {
+    margin: 0px;
+}
+
+.sgits-deactivate-reasons+label>textarea {
+    margin: 6px 0px;
+}
+
+.nq-data-collect-box {
+    display: flex;
+    column-gap: 8px;
+    align-items: flex-start;
+    border: 1px solid #949494;
+    padding: 8px;
+    margin-bottom: 12px;
+    border-radius: 4px;
+}
+
+.nq-data-collect-box.nq-data-collect-info-container {
+    background-color: #f7f5fd;
+    border-color: #eae5f8;
+}
+
+.nq-data-collect-box-content p,
+.nq-data-collect-box-content h3 {
+    margin: 0px;
+}
+
+.nq-data-collect-box-content .nq-data-collect-box-title {
+    font-size: 12px;
+}
+.nq-data-collect-box-content .nq-data-collect-box-description {
+    font-size: 10px;
+}
+
+.nq-data-collect-box .dashicons {
+    color: #715ad1;
+}
+
+.nq-data-collect-box a {
+    color: #715ad1;
+    text-decoration: none;
+    outline: none;
+}
+
+.nq-data-collect-box a .dashicons {
+    text-decoration: none;
+}
+
+.nq-data-collect-box-content a:hover {
+    text-decoration: underline;
+}
+
+.nq-data-collect-box input[type="checkbox"] {
+    outline: none;
+    box-shadow: none;
+}
+
+.nq-data-collect-box input[type="checkbox"],
+.nq-data-collect-box .dashicons {
+    margin: 0px;
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+    ul.sgits-deactivate-reasons {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
 }

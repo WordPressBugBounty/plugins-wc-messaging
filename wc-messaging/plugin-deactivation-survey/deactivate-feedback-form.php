@@ -59,16 +59,67 @@ add_action('admin_enqueue_scripts', function () {
 
 	// Reasons
 	$defaultReasons = array(
-		'suddenly-stopped-working'	=> __('The plugin suddenly stopped working', 'wc-messaging'),
-		'plugin-broke-site'			=> __('The plugin broke my site', 'wc-messaging'),
-		'no-longer-needed'			=> __('I don\'t need this plugin any more', 'wc-messaging'),
-		'found-better-plugin'		=> __('I found a better plugin', 'wc-messaging'),
-		'temporary-deactivation'	=> __('It\'s a temporary deactivation, I\'m troubleshooting', 'wc-messaging'),
-		'other'						=> __('Other', 'wc-messaging')
+		'connection-setup-difficulty'	=> __('WhatsApp connection/setup is difficult', 'wc-messaging'),
+		'whatsapp-messages-not-sending' => __('WhatsApp messages are not sending', 'wc-messaging'),
+		'plugin-stopped-working'	=> __('Plugin stopped working', 'wc-messaging'),
+		'plugin-conflicts'			=> __('Plugin conflicts with my website', 'wc-messaging'),
+		'meta-config-complexity'		=> __('I couldn\'t configure Meta/WhatsApp', 'wc-messaging'),
+		'missing-feature'			=> __('Missing a feature I need', 'wc-messaging'),
+		'too-complicated'			=> __('Too complicated', 'wc-messaging'),
+		'found-better-plugin'		=> __('I found another plugin', 'wc-messaging'),
+		'no-longer-needed'			=> __('I don\'t need WhatsApp anymore', 'wc-messaging'),
+		'temporary-troubleshooting'	=> __('I\'m temporarily troubleshooting', 'wc-messaging'),
+		'other'						=> __('Other - please tell us', 'wc-messaging')
 	);
+	
+	// Server Info
+	$web_server = (!empty(sanitize_text_field(wp_unslash($_SERVER['SERVER_SOFTWARE'])))) ? sanitize_text_field(wp_unslash($_SERVER['SERVER_SOFTWARE'])) : 'Not available';
 
+	// WordPress Info
+	$wp_version = get_bloginfo('version');
+	$multisite = is_multisite();
+	$multisite_site_count = function_exists('get_blog_count') ? get_blog_count() : 'N/A';
+	$wp_locale = get_locale();
+
+	// PHP Info
+	$php_version = phpversion();
+	$php_memory_limit = ini_get('memory_limit');
+	$wp_memory_limit = WP_MEMORY_LIMIT;
+
+	// Construct the diagnostic info
+	$diagnosis_info = array();
+	$diagnosis_info['diagnosis'] = array(
+		'Web Server' => $web_server,
+		'WordPress' => $wp_version . ($multisite ? "Multisite (subdirectory)" : ""),
+		'Multisite Site Count' => $multisite_site_count,
+	);
+	$diagnosis_info['site_info'] = array(
+		'WP Locale' => $wp_locale,
+		'PHP' => $php_version,
+		'PHP Memory Limit' => $php_memory_limit,
+		'WP Memory Limit' => $wp_memory_limit
+	);
+	$active_theme_data = array(get_template() => array(
+		'name' => wp_get_theme()->name,
+	));
+	if (!empty(wp_get_theme()->parent_theme)) {
+		$active_theme_data[get_template()]['Parent'] = wp_get_theme()->parent_theme;
+	}
+	$active_theme_data[get_template()]['version'] = wp_get_theme()->version;
+	$diagnosis_info['theme'] = $active_theme_data;
+	$diagnosis_info['active_plugins'] = array_reduce(get_option('active_plugins', []), function ($result, $plugin) {
+		$data = get_plugin_data(WP_PLUGIN_DIR . '/' . $plugin);
+
+		$result[$data['TextDomain']] = [
+			'name' => $data['Name'],
+			'version' => $data['Version'],
+		];
+
+		return $result;
+	}, []);
 	foreach ($plugins as $plugin) {
 		$plugin->reasons = apply_filters('sgits_deactivate_feedback_form_reasons', $defaultReasons, $plugin);
+		$plugin->diagnosis_data = json_encode($diagnosis_info);
 	}
 
 	// Send plugin data

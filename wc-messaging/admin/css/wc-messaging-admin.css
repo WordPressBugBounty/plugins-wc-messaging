@@ -1,5 +1,5 @@
 /**
- * all of the css for your admin-specific functionality should be
+ * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
 
@@ -36,6 +36,52 @@ body.woocommerce_page_wc-settings #mainform .nq-subtabs-container .subsubsub {
 
 .woom-switch-checkbox {
     position: relative;
+}
+
+table.wcm-flow-table {
+    border-collapse: collapse;
+    margin: 8px 12px 0px 0px;
+}
+
+table.wcm-flow-table td {
+    padding: 2px 4px;
+}
+
+.woom-fullwidth {
+    min-height: 100px;
+    max-height: 750px;
+    color: #000;
+    padding: 8px;
+    border: 1px solid #c3c4c7;
+    resize: both;
+    overflow: auto;
+}
+
+.woom-fullwidth p {
+    margin-top: 0px;
+}
+
+.woom-fullwidth p:last-child {
+    margin-bottom: 0px;
+}
+
+.button.error-button {
+    color: red;
+    border-color: red;
+}
+
+.button.error-button:disabled {
+    opacity: 0.7;
+}
+
+.button.error-button:not(:disabled):hover {
+    color: #bc0000;
+    border-color: #bc0000;
+    background-color: transparent;
+}
+
+.woom-buttons-group .woom-button:not(:first-child) {
+    margin-left: 12px !important;
 }
 
 .woom-field-text input {
@@ -104,31 +150,28 @@ tbody.woom-table-body .woom-field-row .link:hover {
     text-decoration: underline;
 }
 
-tr.woom-field-row input {
-    max-width: calc(100% - 24px);
+.woocommerce table.form-table .woom-input-woom_inline_fields>*:not(:first-child) {
+    margin-left: 12px;
 }
 
-
-.woom-fullwidth {
-    min-height: 100px;
-    max-height: 150px;
-    color: #000;
-    padding: 8px;
-    border: 1px solid #c3c4c7;
-    resize: both;
-    overflow: auto;
+.wcw-leftnav-section {
+    .dashicon {
+        height: unset;
+        width: unset;
+        font-size: 100%;
+    }
 }
 
-.woom-fullwidth p {
-    margin-top: 0px;
+.updated.wcvendors-message.wc-connect {
+    display: none !important;
 }
 
-.woom-fullwidth p:last-child {
-    margin-bottom: 0px;
-}
-
-.woom-buttons-group .woom-button:not(:first-child) {
-    margin-left: 12px !important;
+.woom-rotate, button .woom-rotate {
+    vertical-align: middle !important;
+    height: 16px;
+    width: 16px;
+    font-size: 16px;
+    margin-left: 5px;
 }
 
 .woom-switch-checkbox .switch:before {
@@ -151,18 +194,40 @@ tr.woom-field-row input {
 }
 
 .woom-table-body select {
-    max-width: 150px;
+    max-width: 130px;
+}
+
+tbody.woom-table-body tr.has-admin-row {
+    position: relative;
+}
+
+tbody.woom-table-body tr.has-admin-row>td:first-child {
+    vertical-align: baseline;
+}
+
+tbody.woom-table-body tr.has-admin-row:not(:first-child):after {
+    position: absolute;
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    top: 0px;
+    background-color: #00000022;
+    left: 0px;
+    right: 0px;
 }
 
 .woom-switch-checkbox input[type="checkbox"]:not(:checked)+.switch:before {
     left: 2px;
 }
 
-.woom-error-text.woom-warning-message {
+
+
+.woom-error-text.woom-warning-message, .result.error {
     color: red;
 }
 
-.woom-success-text.woom-warning-message {
+.woom-success-text.woom-warning-message, .result.success {
     color: green;
 }
 
@@ -170,6 +235,7 @@ tr.woom-field-row input {
     left: calc(100% - 25px);
     background-color: #a46497;
 }
+
 
 .woom-switch-checkbox input[type="checkbox"] {
     position: absolute;
@@ -181,11 +247,19 @@ tr.woom-field-row input {
 .dashicons.rotate {
     -webkit-animation: woom-spin 2s infinite linear;
     animation: woom-spin 2s infinite linear;
-    margin-left: 4px;
+    line-height: normal !important;
+}
+
+.inline-inputs input {
+    max-width: 50px;
+}
+
+.inline-inputs {
+    display: flex;
 }
 
 /**
- * all of the css for your admin-specific functionality should be
+ * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
 .list-block {
@@ -193,9 +267,20 @@ tr.woom-field-row input {
     flex-direction: column;
 }
 
+.wcw-page-header {
+    background-color: #fff;
+    margin-bottom: 12px;
+    position: sticky;
+    top: 0px;
+    width: 100%;
+    z-index: 1;
+}
+
 .wcw-page-header .wcw-chat-header {
     font-weight: 600;
     font-size: 14px;
+    margin: 0px;
+    padding: 12px;
 }
 
 .wcw-page-header .wcw-chat-header>sup {
@@ -205,14 +290,8 @@ tr.woom-field-row input {
     margin-left: 8px;
 }
 
-.wcw-page-header {
-    /* background: #ebebec; */
-    background: #d3d3d6;
-    margin-bottom: 30px;
-    position: sticky;
-    top: 0px;
-    width: 100%;
-    z-index: 1;
+.woom-page-template .wc_status_table {
+    width: calc(100% - 180px);
 }
 
 .wcw-page-header.is-scrolled {
@@ -280,8 +359,6 @@ tr.woom-field-row input {
 #woom-manual-trigger-actions .wcw-buttons .btn {
     margin-right: 8px;
     margin-bottom: 8px;
-    display: inline-flex;
-    align-items: center;
 }
 
 .woom-field-actions a {
@@ -406,8 +483,6 @@ popup styles starts here..
 /**
 popup styles ends here..
 **/
-
-
 .woom-template-cofig-actions {
     display: flex;
     flex-direction: column;
@@ -429,6 +504,23 @@ popup styles ends here..
 
 .woom-template-cofig-actions .button.link:not(.preview-btn) {
     text-decoration: underline;
+}
+
+
+.woom-config-template-settings th {
+    font-weight: 600;
+}
+
+table.wc_emails tbody tr[class^="woom-field-row-"]:not(:first-child)>td {
+    border-top: 1px solid #c3c4c7;
+}
+
+table.wc_emails tr.woom-collapse-table>td {
+    padding: 0px !important;
+}
+
+.wc_emails table.woom-toggle-content-table tr td {
+    background-color: transparent !important;
 }
 
 table.woom-toggle-content-table .woom-label {
@@ -835,32 +927,9 @@ table.woom-toggle-content-table .woom-label {
         margin-right: 10px;
     }
 
-    .woocommerce_page_chat .is-dismissible {
-        display: none;
-    }
-
     .inline-nospace-fields input,
     .inline-nospace-fields select {
         border-radius: 0px;
-    }
-
-    .nq-container {
-        display: flex;
-        gap: 15px;
-    }
-
-    .nq-container .content {
-        width: 60%;
-    }
-
-    .nq-container .sidebar {
-        width: 40%;
-    }
-
-    .woom-support-settings-container {
-        display: flex;
-        column-gap: 20px;
-        align-items: flex-start;
     }
 
 }
@@ -870,12 +939,6 @@ table.woom-toggle-content-table .woom-label {
     .inline-nospace-fields input,
     .inline-nospace-fields select {
         margin-bottom: 20px !important;
-    }
-
-    .nq-container {
-        display: flex;
-        gap: 15px;
-        flex-direction: column;
     }
 
 }

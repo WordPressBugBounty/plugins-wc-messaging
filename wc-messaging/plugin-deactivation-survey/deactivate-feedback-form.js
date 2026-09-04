@@ -15,7 +15,7 @@
         var element = $('\
 			<div class="sgits-deactivate-dialog" data-remodal-id="' + plugin.slug + '">\
             <form>\
-            <div class="sgits-deactivate-dialog-logo"><img src="'+ sgits_deactivate_feedback_logo.url +'"></div>\
+            <div class="sgits-deactivate-dialog-logo"><img src="'+ sgits_deactivate_feedback_logo.url + '"></div>\
 					<input type="hidden" name="plugin"/>\
 					<h2>' + strings.quick_feedback + '</h2>\
 					<p>\
@@ -23,10 +23,9 @@
 					</p>\
 					<ul class="sgits-deactivate-reasons"></ul>\
                     <label>' + strings.brief_description + '\
-					<textarea rows="4" name="message" placeholder=""></textarea>\
-                    </label>\
-					<br>\
-					<p>🔒 No sensitive data is collected or stored by us. <a href="https://notiqoo.com/privacy-policy/?utm_source=free-plugin&utm_medium=popup&utm_campaign=deactivation" target="_blank">Learn more</a>\
+					<textarea rows="3" name="message" placeholder=""></textarea>\
+                    </label><br>\
+                    <div class="nq-data-collect-info-container nq-data-collect-box"><span class="dashicons dashicons-shield-alt"></span><div class="nq-data-collect-info-content nq-data-collect-box-content"><h3 class="nq-data-collect-box-title">Your privacy matters</h3><p class="nq-data-collect-box-description">We never collect or store sensitive information such as emails, domain names, user data, or WhatsApp messages. Any diagnostic data collected is anonymous and used only to improve compatibility and performance.</p></div></div><div class="nq-data-collect-consent-container nq-data-collect-box"><input type="checkbox" name="consent_for_diagnostics" id="consent_for_diagnostics" checked><label for="consent_for_diagnostics"><div class="nq-data-collect-consent-content nq-data-collect-box-content"><h3 class="nq-data-collect-box-title">Allow diagnostic data collection (recommended)</h3><div class="nq-data-collect-box-description">Share anonymous information about your WordPress environment and plugin usage to help us fix issues faster and improve compatibility. <a href="https://notiqoo.com/privacy-policy/?utm_source=free-plugin&utm_medium=popup&utm_campaign=deactivation" target="_blank" class="nq-data-collect-box-action">Learn more about what we collect <i class="dashicons dashicons-external"></i></a></div></div></label><textarea name="nq_diagnosis_data" style="display:none;" id="nq_diagnosis_data">'+ plugin.diagnosis_data + '</textarea></div>\
 					<p class="sgits-deactivate-dialog-buttons">\
 						<input type="submit" class="button confirm" value="' + strings.skip_and_deactivate + '"/>\
 						<button data-remodal-action="cancel" class="button button-primary">' + strings.cancel + '</button>\
@@ -37,7 +36,6 @@
         this.element = element;
 
         $(element).find("input[name='plugin']").val(JSON.stringify(plugin));
-
         $(element).on("change", "input[name='reason']", function (event) {
 
             $(element).find("input[type='submit']").val(
@@ -95,7 +93,10 @@
             event.preventDefault();
             submit_btn.siblings().hide();
             submit_btn.val(strings.please_wait);
-
+            const params = new URLSearchParams(data);
+            if (!params.get('consent_for_diagnostics')) {
+                params.delete('nq_diagnosis_data');
+            }
             $.ajax({
                 type: "POST",
                 url: "https://notiqoo.com/wp-json/deactivate-survey/v1/plugin-feedback",

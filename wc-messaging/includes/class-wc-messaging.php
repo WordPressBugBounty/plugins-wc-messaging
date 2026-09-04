@@ -136,8 +136,13 @@ class Woom_Messaging
 		 */
 		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/packages/notiqoo-abandoned-dashboard/notiqoo-abandoned-dashboard.php';
 
-		
+
 		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/packages/admin-notices/AdminNotice.php';
+
+		/**
+		 * Abandoned carts tracking before checkout
+		 */
+		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/abandoned/abandoned-cart-tracker.php';
 
 
 		$this->loader = new Woom_Messaging_Loader();
@@ -186,23 +191,18 @@ class Woom_Messaging
 
 		$this->loader->add_filter('woom_additional_settings', $plugin_admin, 'woom_custom_actions_settings');
 		$this->loader->add_action('wp_ajax_woom_autosave_manual_trigger_actions', $plugin_admin, 'woom_save_custom_template_options');
-		$this->loader->add_action('wp_ajax_nopriv_woom_autosave_manual_trigger_actions', $plugin_admin, 'woom_save_custom_template_options');
 
 		$this->loader->add_filter('woom_settings_sidebar', $plugin_admin, 'woom_sidebar_config');
 
 		$this->loader->add_action('wp_ajax_woom_clear_option', $plugin_admin, 'woom_remove_custom_template_options');
-		$this->loader->add_action('wp_ajax_nopriv_woom_clear_option', $plugin_admin, 'woom_remove_custom_template_options');
 
 		$this->loader->add_action('wp_ajax_woom_manual_trigger_action', $plugin_admin, 'woom_send_manual_msg');
-		$this->loader->add_action('wp_ajax_nopriv_woom_manual_trigger_action', $plugin_admin, 'woom_send_manual_msg');
 
 		$this->loader->add_action('wp_dashboard_setup', $plugin_admin, 'woom_add_wc_messaging_overview_widget');
 
 		$this->loader->add_action('wp_ajax_woom_regenerate_wa_templates', $plugin_admin, 'woom_update_wa_templates');
-		$this->loader->add_action('wp_ajax_nopriv_woom_regenerate_wa_templates', $plugin_admin, 'woom_update_wa_templates');
 
 		$this->loader->add_action('wp_ajax_woom_ajax_popup', $plugin_admin, 'woom_callback_popup');
-		$this->loader->add_action('wp_ajax_nopriv_woom_ajax_popup', $plugin_admin, 'woom_callback_popup');
 
 		$this->loader->add_action('woocommerce_settings_woom_settings', $plugin_admin, 'woom_action_woocommerce_settings_woom_settings_tab', 10);
 		$this->loader->add_action('woocommerce_settings_save_woom_settings', $plugin_admin, 'woom_action_woocommerce_settings_save_woom_settings_tab', 10);
@@ -229,47 +229,48 @@ class Woom_Messaging
 
 		$this->loader->add_filter('update_footer', $plugin_admin, 'nq_settings_footer_version', 99);
 
-		//cron job scheduler
-		$this->loader->add_action('init', $plugin_admin, 'register_cron');
-		$this->loader->add_filter('cron_schedules', $plugin_admin, 'add_cron_schedule');
-		$this->loader->add_action('woom_messaging_check_abandoned', $plugin_admin, 'check_abandoned');
+		// Abandoned cart hooks
+		$this->loader->add_action('woocommerce_add_to_cart', $plugin_admin, 'nq_schedule_abandoned_cart');
+		$this->loader->add_action('nq_messaging_check_abandoned', $plugin_admin, 'nq_check_abandoned');
+		$this->loader->add_action('init', $plugin_admin, 'nq_remove_old_cron');
 
 
 		$this->loader->add_action('wp_ajax_send_trigger_sample_to_url', $plugin_admin, 'abandoned_trigger_sample');
-		$this->loader->add_action('wp_ajax_nopriv_send_trigger_sample_to_url', $plugin_admin, 'abandoned_trigger_sample');
-		
+
 		$this->loader->add_action('woom_abandoned_order_created', $plugin_admin, 'woom_abandoned_created_data', 10, 1);
 		$this->loader->add_action('woocommerce_order_status_completed', $plugin_admin, 'woom_abandoned_recovery_complete', 15, 2);
 		$this->loader->add_action('woom_abandoned_order_recovered', $plugin_admin, 'woom_abadonment_recovery_data', 15, 1);
 		$this->loader->add_action('woocommerce_order_status_failed', $plugin_admin, 'woom_abandoned_recovery_lost', 15, 2);
-		
+
 		//hook for delete existing system user
 		$this->loader->add_action('admin_init', $plugin_admin, 'woom_delete_wa_system_user', 25);
 
 
 		$this->loader->add_action('admin_init', $plugin_admin, 'nq_review_admin_notice', 20);
 		$this->loader->add_action('wp_ajax_woom_dismiss_review_notice', $plugin_admin, 'nq_review_notice_dismiss');
-		$this->loader->add_action('wp_ajax_nopriv_woom_dismiss_review_notice', $plugin_admin, 'nq_review_notice_dismiss');
 
 		// auto delete cron callback
 		$this->loader->add_action('wcm_delete_coupons_weekly', $plugin_admin, 'delete_abandoned_coupons');
 		$this->loader->add_action('wp_ajax_delete_abandoned_coupons', $plugin_admin, 'woom_delete_abandoned_coupons');
-		$this->loader->add_action('wp_ajax_nopriv_delete_abandoned_coupons', $plugin_admin, 'woom_delete_abandoned_coupons');
+
 		//$this->loader->add_action('admin_notices', $plugin_admin, 'woom_branding_updated_notice');
 
 		$this->loader->add_action('admin_menu', $plugin_admin, 'woom_wc_submenu');
 		// // trigger updates info
 		$this->loader->add_action('upgrader_process_complete', $plugin_admin, 'nq_check_in_update', 10, 2);
 		$this->loader->add_action('plugins_loaded', $plugin_admin, 'nq_redirect_after_update');
-		
+
 		//Count messages send by Notiqoo
 		$this->loader->add_action('woom_whatsapp_msg_sent_admin_success', $plugin_admin, 'nq_update_message_count', 45, 1);
 		$this->loader->add_action('woom_whatsapp_msg_sent_success', $plugin_admin, 'nq_update_message_count', 45, 1);
 		$this->loader->add_action('nq_message_send', $plugin_admin, 'nq_update_message_count', 45, 4);
 
 		//Hook for update +sign in setting page
-		$this->loader->add_action('woom_whatsapp_msg_sent_success', $plugin_admin, 'nq_update_whatsapp_numbers_with_plus', 40,1);
+		$this->loader->add_action('woom_whatsapp_msg_sent_success', $plugin_admin, 'nq_update_whatsapp_numbers_with_plus', 40, 1);
 
+		// Abandoned cart
+		$this->loader->add_action('notiqoo_abandoned_cart_created', $plugin_admin, 'nq_abandoned_notification_init', 50, 1);
+		$this->loader->add_action('nq_process_abandoned_scheduled', $plugin_admin, 'nq_trigger_abandoned_scheduled');
 	}
 
 
@@ -290,6 +291,7 @@ class Woom_Messaging
 		$this->loader->add_filter('woocommerce_checkout_fields', $plugin_public, 'woom_enable_notification_wc_classic_checkouts');
 		$this->loader->add_action('woocommerce_init', $plugin_public, 'woom_enable_notification_wc_block_checkouts');
 		$this->loader->add_action('woocommerce_after_checkout_validation', $plugin_public, 'woom_verify_phone_number', 50, 2);
+		$this->loader->add_action('woocommerce_init', new Notiqoo_Abandoned_Cart_Tracker(), 'init');
 	}
 
 	/**

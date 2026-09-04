@@ -305,11 +305,13 @@ if (!class_exists('Wcm_Abandoned_Checker')) {
         function woom_generate_coupon($coupon_data = array(), $order_id = null)
         {
             if (empty($coupon_data) || empty($order_id)) {
-                return array();
+                return '';
             }
             $order = wc_get_order($order_id);
             $email  = $order->get_billing_email();
             $coupon_code = uniqid($this->woom_generate_coupon_prefix());
+            $coupon_code = $this->woom_generate_coupon_prefix() . substr(md5($coupon_code), 0, 6);
+
             $coupon = new WC_Coupon();
             $coupon->set_code($coupon_code);
             $coupon->set_description(__('Notiqoo Pro abandoned coupon', 'wc-messaging'));
@@ -321,26 +323,53 @@ if (!class_exists('Wcm_Abandoned_Checker')) {
             // coupon expiry date
             $expire_timestamp = current_time('timestamp') + $coupon_data['expiry_in_seconds'];
             $coupon->set_date_expires($expire_timestamp);
-            // Usage Restriction
-
-            // minimum spend
-            // $coupon->set_minimum_amount(5000);
-            // maximum spend
-            // $coupon->set_maximum_amount(50000);
-
             // individual use only
             $coupon->set_individual_use($coupon_data['individual']);
             // allowed emails
             if (!empty($email)) {
                 $coupon->set_email_restrictions(array($email));
             }
-
             // usage limit per coupon
             $coupon->set_usage_limit(1);
-
             // usage limit per user
             $coupon->set_usage_limit_per_user(1);
+            $coupon->save();
+            return $coupon_code;
+        }
+        function woom_generate_coupon_by_cart($coupon_data = array(), $cart = null)
+        {
+            if (empty($coupon_data) || empty($cart)) {
+                return array();
+            }
+            $email  = '';
+            if (!empty($cart['customer_email'])) {
 
+                $email  = $cart['customer_email'];
+            }
+            $coupon_code = uniqid($this->woom_generate_coupon_prefix());
+            $coupon_code = $this->woom_generate_coupon_prefix() . substr(md5($coupon_code), 0, 6);
+
+            $coupon = new WC_Coupon();
+            $coupon->set_code($coupon_code);
+            $coupon->set_description(__('Notiqoo Pro abandoned coupon', 'wc-messaging'));
+            // discount type can be 'fixed_cart', 'percent' or 'fixed_product', defaults to 'fixed_cart'
+            $coupon->set_discount_type($coupon_data['discount_type']);
+            $coupon->set_amount($coupon_data['amount']);
+            // $coupon->set_free_shipping(true);
+
+            // coupon expiry date
+            $expire_timestamp = current_time('timestamp') + $coupon_data['expiry_in_seconds'];
+            $coupon->set_date_expires($expire_timestamp);
+            // individual use only
+            $coupon->set_individual_use($coupon_data['individual']);
+            // allowed emails
+            if (!empty($email)) {
+                $coupon->set_email_restrictions(array($email));
+            }
+            // usage limit per coupon
+            $coupon->set_usage_limit(1);
+            // usage limit per user
+            $coupon->set_usage_limit_per_user(1);
             $coupon->save();
             return $coupon_code;
         }
