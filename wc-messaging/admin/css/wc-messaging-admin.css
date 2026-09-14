@@ -536,6 +536,8 @@ table.woom-toggle-content-table .woom-label {
     display: flex;
     align-items: center;
     gap: 8px;
+    width: 100%;
+    justify-content: center;
 }
 
 .nq-addons-inline {
@@ -899,6 +901,11 @@ table.woom-toggle-content-table .woom-label {
     padding: 16px;
     background: linear-gradient(96.48deg, #1e1740 4.52%, #7f54b3 201.55%);
 
+}
+
+.nq-container.flex-18 {
+    display: flex;
+    gap: 14px;
 }
 
 @media only screen and (min-width: 641px) {

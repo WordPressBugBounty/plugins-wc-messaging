@@ -56,7 +56,7 @@ $addon_features = array(
     )
 );
 ?>
-<div class="columns nq-container">
+<div class="columns nq-container flex-18">
     <div class="content">
         <div class="nq-panel-box">
             <?php

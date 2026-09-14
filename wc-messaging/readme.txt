@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/paypalme/amberpathLLP
 Tags: WhatsApp Business,WhatsApp Notification,WhatsApp API,WhatsApp chat,WooCommerce WhatsApp
 Requires at least: 4.0
 Tested up to: 7.1
-Stable tag: 1.4.14
+Stable tag: 1.4.15
 Requires PHP: 7.4
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
@@ -181,15 +181,11 @@ Start sending automated order status updates to your customers on WhatsApp!
 
 = Is it free plugin? =
 
-Yes, Notiqoo is a free plugin, but we also offer a premium version with advanced features of WhatsApp for WooCommerce. This article will explain how to [send free WhatsApp notifications for WooCommerce orders](https://sevengits.com/free-woocommerce-whatsapp-order-notification/).
-
-= Is this plugin compatible with the latest WooCommerce version? =
-
-Yes, this WooCommerce WhatsApp plugin works with the latest WooCommerce version and the latest updates of this WooCommerce WhatsApp API integration plugin support the WooCommerce blocked checkout feature.
+Yes, Notiqoo is a free plugin, but we also offer a premium version with advanced features of WhatsApp for WooCommerce. This article will explain how to [send free WhatsApp notifications for WooCommerce orders](https://notiqoo.com/how-to-send-whatsapp-notification-for-woocommerce-free/).
 
 = Can this plugin be used to send a free WooCommerce order notification on WhatsApp? =
 
-yes! This WooCommerce WhatsApp plugin lets you [send free WooCommerce order notifications on WhatsApp](https://sevengits.com/free-woocommerce-whatsapp-order-notification/).
+yes! This WooCommerce WhatsApp plugin lets you [send free WooCommerce order notifications on WhatsApp](https://notiqoo.com/how-to-send-whatsapp-notification-for-woocommerce-free/).
 
 = Is it possible to use my current WhatsApp number as my WhatsApp API number? =
 
@@ -202,26 +198,6 @@ Yes, If you’re integrating WhatsApp for WooCommerce and the admin wants to rec
 = Where can I find the requested access token,WhatsApp business Id and WhatsApp phone id =
 
 In WhatsApp business cloud Api integration, To find the requested access token, WhatsApp Business ID, and WhatsApp phone ID, you need to set up Facebook WhatsApp configuration. Once everything is set up correctly, you can obtain the required data.
-
-= Does this plugin support international WhatsApp messages? =
-
-Yes, definitely! If you're using the Notiqoo plugin for WhatsApp with WooCommerce, it supports all country codes and international messages.
-
-= What's included in the free plan =
-
-The free plan of the Notiqoo plugin includes integration of WhatsApp Business API with WooCommerce. It allows [send free WooCommerce WhatsApp order notifiction](https://sevengits.com/free-woocommerce-whatsapp-order-notification/) using template messages, sent directly to customers via WhatsApp.
-
-= How do I activate my pro plan =
-
-To activate your Notiqoo-WhatsApp integration for WooCommerce pro plan, simply follow these steps: Visit our [documentation](https://notiqoo.com/docs/notiqoo/) section or watch our [video tutorial](https://youtu.be/spY09YlvO08) for easy guidance.
-
-= Is there a live demo for Notiqoo =
-
-Yes, we offer a live demo of the WooCommerce WhatsApp integration on our website.[You can check it out there!](https://notiqoo.com/launch-demo/) of WooCommerce WhatsApp plugin demo.
-
-= Can we continuously chat using the Notiqoo plugin? =
-
-Yes, absolutely! You can continuously chat using this WooCommerce WhatsApp chat plugin. However, according to Facebook’s guidelines, customers need to start the conversations on Messenger. Admins can respond within 24 hours. After that, admins cannot start new chats but can send template messages when needed. If the customer starts another chat, admins can reply and continue the conversation.
 
 == Screenshots ==
 
@@ -246,19 +222,23 @@ Your review helps us keep the plugin 100% free and continue providing free updat
 
 Thank you for supporting open-source ❤️
 
+**1.4.15 - 14 SEP 2026**
+
+* **Improvement:** Added an info notice in settings page at the top when the plugin is not configured
+* **Improvement:** Fixed the layout in the Support & Features section
+
 **1.4.14 - 04 SEP 2026**
 
-* **Improvement:** Hardened AJAX option handling and permissions to prevent unauthorized access to WordPress settings
-* **Improvement:** Compatible with WooCommerce 11.1
-
-**1.4.13 - 29 AUG 2026**
-
-* **Improvement:** Fixed a security vulnerability affecting AJAX actions that could allow users with insufficient privileges to modify WordPress options and perform unauthorized administrative actions.Special thanks to **Seongwon Lee** for responsibly reporting the security vulnerability and helping us improve the security of Notiqoo
+* **Improvement:** Fixed a security vulnerability affecting AJAX actions. Special thanks to **Seongwon Lee** for responsibly reporting the security vulnerability and helping us improve the security of Notiqoo
+* **New:** Improved the Abandoned Cart Recovery system- Recovery workflows now support abandoned carts, checkout initiated orders, and pending payment orders.
 * **Improvement:** Added proper capability checks to AJAX handlers in addition to nonce verification
 * **Improvement:** Restricted option read/write operations to approved plugin-specific options
 * **Improvement:** Removed unnecessary unauthenticated access from AJAX actions that do not require public access
 * **Improvement:** Hardened the plugin's AJAX request handling to prevent unauthorized configuration changes
+* **Improvement:** Hardened AJAX option handling and permissions to prevent unauthorized access to WordPress settings
 * **Improvement:** Compatible with WordPress 7.1
+* **Improvement:** Compatible with WooCommerce 11.1
+Read more on [Notiqoo version 1.4.14 release](https://notiqoo.com/notiqoo-1-4-14/?utm_source=readme&utm_medium=free-changelog&utm_campaign=v1.4.14) post.
 
 **1.4.12 - 07 AUG 2026**
 

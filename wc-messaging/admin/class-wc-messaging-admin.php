@@ -172,19 +172,20 @@ class Woom_Messaging_Admin
 		$result = array();
 		$templates = $this->woom_whatsapp_class->get_message_template('template');
 		if (empty($templates)) {
-			$templates_result = $this->woom_get_message_templates();
-			if ($templates_result['success']) {
-				$templates = update_option('woom_wa_templates', $templates_result['data']);
-			} else {
-				$class = 'notice notice-error';
-				return printf('<div class="%1$s"><p>%2$s</p></div>', esc_attr($class), wp_kses(
-					$templates_result['message'],
-					array(
-						'div' => array('class' => array()),
-						'a' => array('class' => array(), 'href' => array(), 'target' => array()),
-					)
-				));
-			}
+			return;
+			// 	$templates_result = $this->woom_get_message_templates();
+			// 	if ($templates_result['success']) {
+			// 		$templates = update_option('woom_wa_templates', $templates_result['data']);
+			// 	} else {
+			// 		$class = 'notice notice-error';
+			// 		return printf('<div class="%1$s"><p>%2$s</p></div>', esc_attr($class), wp_kses(
+			// 			$templates_result['message'],
+			// 			array(
+			// 				'div' => array('class' => array()),
+			// 				'a' => array('class' => array(), 'href' => array(), 'target' => array()),
+			// 			)
+			// 		));
+			// 	}
 		}
 		$template_name_list = array('' => __('Select a template', 'wc-messaging'));
 		$template_param_count_list = array();
@@ -471,6 +472,10 @@ class Woom_Messaging_Admin
 		$subsections = apply_filters('woom_tab_subsections', array());
 		$links_html = '';
 		$subsections['woom_settings']['support'] = __('Support & Premium', 'wc-messaging');
+		$has_templates = !empty($this->woom_whatsapp_class->get_message_template('template'));
+		if (!$has_templates) {
+			echo sprintf('<div class="notice notice-info"><p>%1$s</p></div>', esc_html__('Configure the general settings first, then click Sync to fetch your approved message templates from the WhatsApp Cloud API..', 'wc-messaging'));
+		}
 		foreach ($subsections as $tab_id => $sections) {
 			$array_keys = array_keys($sections);
 			foreach ($sections as $id => $label) {
@@ -491,8 +496,6 @@ class Woom_Messaging_Admin
 		<br class="clear" />
 		<p id="woom-ajax-result"></p>
 	<?php
-
-
 		return;
 	}
 

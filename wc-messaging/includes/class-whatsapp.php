@@ -87,6 +87,9 @@ if (!class_exists('WCWhatsapp')) {
             $number_id = get_option('woom_wb_account_ID', '');
             $api_version = 'v18.0';
             $limit = apply_filters('notiqoo_wa_template_default_count', 100);
+            if (empty($number_id) || empty($this->access_token)) {
+                return array("data" => array(), "success" => false, "message" => __("General settings are not configured.", 'wc-messaging'));
+            }
             $url = array('https://graph.facebook.com', $api_version, $number_id, 'message_templates?limit=' . $limit);
             $url = esc_url(implode('/', $url));
             $headers = array(
