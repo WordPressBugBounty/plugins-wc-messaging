@@ -232,7 +232,6 @@ class Woom_Messaging
 		// Abandoned cart hooks
 		$this->loader->add_action('woocommerce_add_to_cart', $plugin_admin, 'nq_schedule_abandoned_cart');
 		$this->loader->add_action('nq_messaging_check_abandoned', $plugin_admin, 'nq_check_abandoned');
-		$this->loader->add_action('init', $plugin_admin, 'nq_remove_old_cron');
 
 
 		$this->loader->add_action('wp_ajax_send_trigger_sample_to_url', $plugin_admin, 'abandoned_trigger_sample');
@@ -291,7 +290,10 @@ class Woom_Messaging
 		$this->loader->add_filter('woocommerce_checkout_fields', $plugin_public, 'woom_enable_notification_wc_classic_checkouts');
 		$this->loader->add_action('woocommerce_init', $plugin_public, 'woom_enable_notification_wc_block_checkouts');
 		$this->loader->add_action('woocommerce_after_checkout_validation', $plugin_public, 'woom_verify_phone_number', 50, 2);
-		$this->loader->add_action('woocommerce_init', new Notiqoo_Abandoned_Cart_Tracker(), 'init');
+		if ('yes' === get_option('woom_abandoned_enable', 'no') && 'builtin' === get_option('woom_abandoned_method')) {
+			$nq_ac_tracker = new Notiqoo_Abandoned_Cart_Tracker();
+			$this->loader->add_action('woocommerce_init', $nq_ac_tracker, 'init');
+		}
 	}
 
 	/**

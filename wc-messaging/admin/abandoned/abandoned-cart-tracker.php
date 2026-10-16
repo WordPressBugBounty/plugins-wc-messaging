@@ -21,6 +21,9 @@ class  Notiqoo_Abandoned_Cart_Tracker
 
     public function init()
     {
+        if ('yes' !== get_option('woom_abandoned_enable', 'no') || 'builtin' !== get_option('woom_abandoned_method')) {
+            return;
+        }
 
         $this->phone_sanitizer = new WCWhatsapp();
         add_action('woocommerce_add_to_cart', array($this, 'nq_track_cart'), 12, 0);

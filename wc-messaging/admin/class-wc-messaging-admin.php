@@ -2766,17 +2766,7 @@ class Woom_Messaging_Admin
 		}
 	}
 
-	public function nq_remove_old_cron()
-	{
-		if (get_option('notiqoo_cron_migrated') === 'yes') {
-			return;
-		}
-
-		wp_clear_scheduled_hook('woom_messaging_check_abandoned');
-
-		update_option('notiqoo_cron_migrated', 'yes');
-	}
-
+	
 	/**
 	 * Unschedules the abandoned cart check action.
 	 *
