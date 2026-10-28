@@ -1,0 +1,232 @@
+=== Notiqoo – Previous Changelog ===
+
+**1.4.16 - 16 OCT 2026**
+
+* **Improvement:** Code quality improvements
+* **Improvement:** Compatible with WooCommerce 11.2
+
+**1.4.15 - 14 SEP 2026**
+
+* **Improvement:** Added an info notice in settings page at the top when the plugin is not configured
+* **Improvement:** Fixed the layout in the Support & Features section
+
+**1.4.14 - 04 SEP 2026**
+
+* **Improvement:** Fixed a security vulnerability affecting AJAX actions. Special thanks to **Seongwon Lee** for responsibly reporting the security vulnerability and helping us improve the security of Notiqoo
+* **New:** Improved the Abandoned Cart Recovery system- Recovery workflows now support abandoned carts, checkout initiated orders, and pending payment orders.
+* **Improvement:** Added proper capability checks to AJAX handlers in addition to nonce verification
+* **Improvement:** Restricted option read/write operations to approved plugin-specific options
+* **Improvement:** Removed unnecessary unauthenticated access from AJAX actions that do not require public access
+* **Improvement:** Hardened the plugin's AJAX request handling to prevent unauthorized configuration changes
+* **Improvement:** Hardened AJAX option handling and permissions to prevent unauthorized access to WordPress settings
+* **Improvement:** Compatible with WordPress 7.1
+* **Improvement:** Compatible with WooCommerce 11.1
+Read more on [Notiqoo version 1.4.14 release](https://notiqoo.com/notiqoo-1-4-14/?utm_source=readme&utm_medium=free-changelog&utm_campaign=v1.4.14) post.
+
+**1.4.12 - 07 AUG 2026**
+
+* **Improvement:** Compatible with WooCommerce 11.0
+
+**1.4.11 - 08 JUN 2026**
+
+* **Improvement:** Compatible with WordPress 7.0
+* **Improvement:** Compatible with WooCommerce 10.8
+
+**1.4.10 - 20 APR 2026**
+
+* **Fix:** Addressed multiple PCP errors
+* **Improvement:** Compatible with WooCommerce 10.7
+
+**1.4.9 - 31 MAR 2026**
+
+* **New:** Added direct documentation links within each settings page for quicker access and better guidance
+* **Fix:** Resolved issues with deactivation URL handling
+* **Fix:** Resolved issues of incorrect message count in admin notice
+* **Improvement:** Enhanced overall performance
+
+**1.4.8 - 16 MAR 2026**
+
+* **Fix:** Minor fixes
+* **Improvement:** Compatible with WordPress 6.9
+* **Improvement:** Compatible with WooCommerce 10.6
+
+**1.4.7 - 27 JAN 2026**
+
+* **New:** Review notice added
+* **Improvement:** Customer phone numbers are now automatically formatted and verified in international (E.164) format, ensuring reliable WhatsApp delivery
+* **Improvement:** Minor fixes
+
+**1.4.6 - 19 JAN 2026**
+
+* **New:** Premium version support and features are clearly listed under the Support and Premium Settings tabs. All premium-related configurations and assistance are accessible directly from these sections
+
+**1.4.5 - 15 DEC 2025**
+
+* **Improvement:** Compatible with WordPress 6.9
+* **Improvement:** Compatible with WooCommerce 10.4
+
+**1.4.4 - 26 NOV 2025**
+
+* **Improvement:** Renamed Settings page Templates to Notifications for better clarity and usability
+* **Improvement:** Compatible with WooCommerce 10.3
+
+**1.4.3 - 14 OCT 2025**
+
+* **New:** Deactivation survey form is added
+* **Improvement:** Compatible with WooCommerce 10.2
+
+**1.4.2 - 14 JUL 2025**
+
+* **New:** Added sidebar on General Settings page for quick navigation to Pro features
+* **New:** Extended template support to include named and numbered templates with header types: image, location, documents, and videos
+* **New:** Added header url option in templates to include URLs for header types such as video, location, and image.
+* **New:** Abandoned Status widget added to the dashboard with date filters (Today, Yesterday, Last Week, Last Month)
+* **New:** Detailed status shown in widget: Recoverable Orders, Recovered Orders, Lost Orders, Revenue, and Recovery Rate
+* **Improvement:** New custom hooks added to track abandoned cart events
+* **Improvement:** nq_abandoned_order_created – triggered when a cart is marked as abandoned
+* **Improvement:** nq_abandoned_order_lost – triggered when an abandoned cart is not recovered
+* **Improvement:** nq_abandoned_order_recovered – triggered when a cart is successfully recovered
+* **Improvement:** Compatible with WooCommerce 10.1
+
+**1.4.1 - 24 JUL 2025**
+
+* **Improvement:** Support links updated to point to Notiqoo resources for better assistance
+* **Improvement:** Improved user experience by streamlining access to documentation and support.
+
+**1.4.0 - 22 JUL 2025**
+
+* **New:** Renamed WC Messaging to Notiqoo for branding.
+* **New:** Coupon settings changed to dynamic/static mode
+* **New:** Static setting allows using a predefined coupon code by entering it directly
+* **New:** Dynamic setting creates a new coupon automatically with specific rules
+* **Fix:** Minor fixes in cart abandoned messages send
+* **New:** Introduced named variable support in templates for better customization.
+* **Improvement:** Added support for buttons in message templates.
+* **Improvement:** Compatible with WooCommerce 10.0
+
+**1.3.7 - 21 MAY 2025**
+
+* **Improvement:** Name changed to Notiqoo.
+* **Improvement:** In settings additional settings changed to coupon settings.
+
+**1.3.6 - 25 APR 2025**
+
+* **Improvement:** Compatible with WooCommerce 9.8
+* **Improvement:** Compatible with Wordpress 6.8
+
+**1.3.5 - 04 FEB 2025**
+
+* **Improvement:** Security updates
+* **Improvement:** Code cleaning for improve performance and maintainability
+
+**1.3.4 - 03 FEB 2025**
+
+* **Improvement:** Minor fixes
+* **Improvement:** The plugin name and title have been corrected to comply with WhatsApp's trademark guidelines
+* **Improvement:** Compatible with WooCommerce 9.6
+
+**1.3.3 - 16 JAN 2025**
+
+* **Improvement:**  Minor fixes
+* **Improvement:** The Template Settings page has been enhanced with dedicated options for configuring admin and customer notifications
+* **New:** Template message notifications can now be sent separately to admins and customers, enabling more targeted communication
+
+**1.3.2 - 07 JAN 2025**
+
+* **Improvement:** Renamed the "Support" tab to "Support & Premium" for better clarity
+
+**1.3.1 - 06 JAN 2025**
+
+* **Fix:** Resolved issues with displaying template messages
+* **Improvement:** Enhanced the display for text-only templates in the template settings to avoid confusion.
+
+**1.3.0 - 31 DEC 2024**
+
+* **Fix:** Resolved minor issues
+* **New:** Abandoned cart recovery feature to re-engage potential customers.
+* **Improvement:** Compatible with WooCommerce 9.5
+
+**1.2.2 - 15 NOV 2024**
+
+* **Fix:** Resolved issues with custom trigger buttons
+* **Improvement:** Compatible with WordPress 6.7
+* **Improvement:** Compatible with WooCommerce 9.4
+
+**1.2.1 - 14 OCT 2024**
+
+* **Add:** To enhance the template's settings page, added more variables as parameters can significantly improve flexibility and customization
+* **Fix:** minor errors fixed
+
+**1.2.0 - 04 OCT 2024**
+
+* **Add:** Custom trigger button has been added for easy messaging of extra order statuses or custom statuses.
+* **Improvement:** Trigger button should feel like clicked
+* **Improvement:** Template's setting page of WC Messaging updated with Sync option
+* **Improvement:** Compatible with WooCommerce 9.3
+* **Fix:** Tools setting page removed
+
+**1.1.7 - 17 JUL 2024**
+
+* **Improvement:** Compatible with WordPress 6.6
+* **Improvement:** Compatible with WooCommerce 9.1
+
+**1.1.6 - 09 JUL 2024**
+
+* **Improvement:** Compatible with WooCommerce 9.0
+* **Improvement:** Added HPOS support
+
+**1.1.5 - 10 JUN 2024**
+
+* **Fix:** The error in the template settings regarding header parameters has been fixed
+* **Improvement:** Added WC Messaging widget on dashboard
+* **Improvement:** Added support tab on setting page
+
+**1.1.4 - 27 MAY 2024**
+
+* **Improvement:** Compatible with WooCommerce 8.9
+
+**1.1.3 - 21 MAY 2024**
+
+* **Improvement:** Order note message improved
+* **Improvement:** Compatible with WooCommerce 8.8
+
+**1.1.2 - 06 APR 2024**
+
+* **Improvement:** Feedback form added.
+* **Improvement:** Compatible with Wordpress 6.5
+
+**1.1.1 - 27 MAR 2024**
+
+* **Fix:** Minor fixes
+
+**1.1.0 - 26 MAR 2024**
+
+* **Improvement:** Added Support for Blocked checkout
+* **Improvement:** Compatible with WooCommerce 8.7
+* **Improvement:** Setting page has been improved with a dropdown menu
+* **Fix:** Pro features removed.
+
+**1.0.11 - 24 FEB 2024**
+
+* **Improvement:** Custom message trigger button added. Admin can send message template by a dedicated button on the order detail page, improving communication and customer engagement.
+* **Improvement:** Compatible  with WooCommerce version 8.6
+
+
+**1.0.10 - 20 FEB 2024**
+
+* **Improvement:** Automatic order status can send to customers through WhatsApp.
+* **Improvement:** customized order notifications can be send.
+* **Improvement:** Compatible  with wordpress version 6.4
+* **Improvement:** Compatible  with WooCommerce version 8.5
+
+**1.0.9 - 20 FEB 2024**
+
+* **Improvement:** Stable version
+
+**1.0.1 - 22 AUG 2023**
+
+* **Fix:** WhatsApp api url unique phone number id field added in settings.
+
+**1.0.0 - 13 JUL 2023**
+
+* Initial release of the WhatsApp Business API Integration for WooCommerce plugin.

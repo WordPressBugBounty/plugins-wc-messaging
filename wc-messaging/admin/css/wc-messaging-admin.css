@@ -537,9 +537,15 @@ table.woom-toggle-content-table .woom-label {
     align-items: center;
     gap: 8px;
     width: 100%;
-    justify-content: center;
+    /* justify-content: center; */
 }
-
+.virtual-number-promotional-card .card-content-inline {
+    display: flex;
+    align-items: center;
+}
+.virtual-number-promotional-card .card-content-center {
+    text-align: center;
+}
 .nq-addons-inline {
     display: inline-flex;
     align-items: center;
@@ -601,6 +607,9 @@ table.woom-toggle-content-table .woom-label {
     border-radius: 8px;
     margin-bottom: 24px;
     position: relative
+}
+.nq-panel-box.card {
+    max-width: unset;
 }
 
 .nq-panel-box.featured {
@@ -694,11 +703,16 @@ table.woom-toggle-content-table .woom-label {
 .nq-panel-box .nq-btn {
     padding: 8px 16px;
     text-decoration: none;
-    display: block;
+    display: inline-block;
     text-align: center;
     margin: 12px 0px;
+    outline: none;
+    box-shadow: none;
 }
-
+.nq-panel-box .nq-btn.full-width-button{
+    width: calc(100% - 32px);
+    text-align: center;
+}
 .woom-button:not(.button-bordered),
 .nq-panel-box .nq-btn {
     background-color: #7f54b3;
@@ -728,11 +742,11 @@ table.woom-toggle-content-table .woom-label {
 }
 
 .round {
-    border-radius: 32px;
+    border-radius: 32px !important;
 }
 
 .curved {
-    border-radius: 8px;
+    border-radius: 8px !important;
 }
 
 .demo-explorer .nq-btn {

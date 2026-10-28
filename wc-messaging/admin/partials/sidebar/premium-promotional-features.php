@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
                 <li>
                     <a href="https://wordpress.org/support/plugin/wc-messaging/reviews/" target="_blank" title="<?php esc_html_e('Like this plugin? please leave a review and support us!', 'wc-messaging'); ?>">
                         <img src="<?php echo esc_url(plugin_dir_url(__FILE__) . 'img/review.svg'); ?>" alt="notiqoo-rating">
-                        <h4><?php echo esc_html('Love this plugin? Rate us', 'wc-messaging'); ?></h4>
+                        <h4><?php echo esc_html__('Love this plugin? Rate us', 'wc-messaging'); ?></h4>
                     </a></li>
             </ul>
         </div>
@@ -44,6 +44,7 @@ if (!defined('ABSPATH')) {
                     ?>
                 </div>
             </div>
+            <?php include(plugin_dir_path(__FILE__) . "virtual-number-promo-card.php"); ?>
         </div>
     </div>
 </div>

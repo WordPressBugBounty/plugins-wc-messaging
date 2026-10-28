@@ -9,7 +9,7 @@
  * Plugin Name:       Notiqoo
  * Plugin URI:        https://notiqoo.com/
  * Description:       Send WhatsApp notifications for Woocommerce orders using  official WhatsApp Cloud APIs.
- * Version:           1.4.16
+ * Version:           1.4.17
  * Author:            Notiqoo
  * Author URI:        https://notiqoo.com/
  * License:           GPL-2.0+
@@ -42,7 +42,7 @@ if (!defined('woom_plugin_name')) {
 	define('woom_plugin_name', 'WC Messaging');
 }
 if (!defined('woom_version')) {
-	define('woom_version', '1.4.16');
+	define('woom_version', '1.4.17');
 }
 
 if (!defined('woom_basename')) {

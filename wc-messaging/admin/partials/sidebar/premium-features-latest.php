@@ -255,6 +255,7 @@ $addon_features = array(
                 </div>
             </div>
         </div>
+        <?php include(plugin_dir_path(__FILE__) . "virtual-number-promo-card.php"); ?>
         <div class="nq-panel-box featured demo-explorer">
             <div class="nq-inline-content">
                 <div>
